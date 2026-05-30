@@ -1,10 +1,10 @@
 /* ══ CONFIG — only file you edit each year ══ */
 const CONFIG = {
-  logos: [],  // Drive File IDs: ["ID1","ID2","ID3"]
+  logos: ["https://lh3.googleusercontent.com/d/1aIR3Y9QXJZ8E8eG2rquYECnUoL07Mxsz","https://nisadya.in/NLCIL%20Logo%20CMYK_.png","https://nisadya.in/college_logo.svg"],  // Drive File IDs: ["ID1","ID2","ID3"]
   hero: { images: [], videos: [] },
-  sheets: { eventsSheetId:"YOUR_SHEET_ID", scheduleSheetId:"YOUR_SHEET_ID" },
+  sheets: { eventsSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4", scheduleSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4" },
   sheetTabs: { events:"Events", schedule:"Schedule" },
-  instagramReels: [
+  instagramReels: ["https://www.instagram.com/nisadya.nitt/p/DVOlctWidVl/","https://www.instagram.com/nisadya.nitt/p/DVOk_0ZiTdb/","https://www.instagram.com/nisadya.nitt/p/DVOklPPiYot/"
     // "https://www.instagram.com/reel/REEL_ID/",
   ]
 };
