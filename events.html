@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Events – Nisadya</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+.events-section{background:var(--bg);padding:90px 0 120px;}
+.events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-top:56px;}
+.event-card{border-radius:var(--rl);overflow:hidden;position:relative;transition:transform .4s var(--ease),border-color .4s;cursor:pointer;display:flex;flex-direction:column;}
+.event-card:hover{border-color:var(--gold)!important;transform:translateY(-6px);}
+[data-theme="light"] .event-card{background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.08);box-shadow:0 4px 20px rgba(0,0,0,.07);}
+.event-thumb{height:200px;overflow:hidden;background:var(--bg3);position:relative;flex-shrink:0;}
+.event-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease);}
+.event-card:hover .event-thumb img{transform:scale(1.08);}
+.thumb-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg3),var(--bg2));position:relative;}
+.thumb-fallback::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 120%,rgba(201,147,58,.15),transparent 70%);}
+.thumb-initials{font-family:var(--fd);font-size:4rem;letter-spacing:4px;color:rgba(201,147,58,.25);position:relative;z-index:1;}
+.event-body{padding:26px 26px 28px;display:flex;flex-direction:column;flex:1;}
+.event-name{font-family:var(--fs);font-size:1.25rem;font-weight:700;margin-bottom:6px;line-height:1.3;color:var(--tx);}
+.event-date{font-size:.64rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+.event-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;}
+</style>
+</head>
+<body>
+<div id="nav-root"></div>
+<div class="ph"><div class="ph-glow"></div><div class="ph-grid"></div>
+  <p class="ph-label">Competitions</p>
+  <h1 class="ph-title">EVENTS</h1>
+  <p class="ph-sub">Choose your arena. Prove your edge.</p>
+</div>
+<section class="events-section">
+  <div class="container">
+    <span class="eyebrow">All Competitions</span>
+    <h2 class="sec-title">Events at Nisadya</h2>
+    <div class="sec-line"></div>
+    <div class="events-grid" id="eventsGrid">
+      <div class="load-msg">Loading events…</div>
+    </div>
+  </div>
+</section>
+<div id="foot-root"></div>
+<script src="js/config.js"></script>
+<script>
+async function loadEvents(){
+  const grid=document.getElementById('eventsGrid');
+  try{
+    const res=await fetch(sheetUrl(CONFIG.sheets.eventsSheetId,CONFIG.sheetTabs.events));
+    if(!res.ok)throw new Error();
+    const rows=parseCSV(await res.text());
+    if(!rows.length){grid.innerHTML='<div class="load-msg">No events found.</div>';return;}
+    window._events=rows.map(mapEvent);
+    addSearchItems(window._events.map((ev,i)=>({tag:'Event',title:ev.name,snippet:`${ev.date||'Date TBA'} · ${ev.details.slice(0,90)}`,url:`event-detail.html?event=${i}`})));
+    grid.innerHTML=window._events.map((ev,i)=>`
+      <div class="event-card glass tilt rv" style="transition-delay:${Math.min(i*.07,.4)}s">
+        <div class="tilt-shine"></div>
+        <div class="event-thumb">${ev.thumb?`<img src="${driveImg(ev.thumb)}" alt="${ev.name}" loading="lazy"/>`:`<div class="thumb-fallback"><div class="thumb-initials">${ev.name.substring(0,2).toUpperCase()}</div></div>`}</div>
+        <div class="event-body">
+          <div class="event-name">${ev.name}</div>
+          <div class="event-date">${ev.date||'Date TBA'}</div>
+          <div class="event-actions">
+            <a href="event-detail.html?event=${i}" class="btn btn-outline btn-sm">View Details</a>
+            <a href="${ev.unstop}" target="_blank" class="btn btn-gold btn-sm">Register →</a>
+          </div>
+        </div>
+      </div>`).join('');
+    reObserve();initTilt();
+  }catch(e){
+    grid.innerHTML='<div class="load-msg">Failed to load. Open via Live Server and check Sheet ID in config.js.</div>';
+  }
+}
+boot('events',loadEvents);
+</script>
+</body>
+</html>
