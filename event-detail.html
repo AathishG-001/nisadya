@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Event – Nisadya</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+.det-section{background:var(--bg);padding:120px 0 100px;}
+.switcher-bar{position:sticky;top:73px;z-index:100;background:var(--navbg);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr2);padding:13px 0;}
+.switcher-inner{max-width:1200px;margin:0 auto;padding:0 56px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.breadcrumb{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);}
+.breadcrumb a{color:var(--gold);}
+.ev-sel-wrap{display:flex;align-items:center;gap:12px;}
+.ev-sel-wrap label{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);white-space:nowrap;}
+.ev-sel{background:var(--surf);border:1px solid var(--bdr2);border-radius:var(--r);color:var(--tx);font-family:var(--fb);font-size:.82rem;padding:9px 14px;cursor:pointer;min-width:200px;outline:none;transition:border-color .25s;}
+.ev-sel:focus{border-color:var(--gold);}
+.ev-sel option{background:var(--bg);}
+.det-layout{display:grid;grid-template-columns:1fr 360px;gap:52px;align-items:start;margin-top:52px;}
+.det-sidebar{position:sticky;top:145px;}
+.back-link{display:inline-flex;align-items:center;gap:8px;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:44px;transition:color .25s;}
+.back-link:hover{color:var(--gold);}
+.back-link::before{content:'←';font-size:1rem;}
+.det-name{font-family:var(--fs);font-size:clamp(2.2rem,4vw,3.4rem);font-weight:900;line-height:1.1;margin-bottom:8px;color:var(--tx);}
+.det-date{font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:40px;}
+.det-block{margin-bottom:44px;}
+.det-block-label{font-size:.62rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);padding-bottom:12px;border-bottom:1px solid var(--bdr2);margin-bottom:16px;}
+.det-text{font-size:.94rem;line-height:1.9;color:var(--tx2);}
+.rules-list{list-style:none;display:flex;flex-direction:column;gap:12px;}
+.rules-list li{display:flex;gap:14px;align-items:flex-start;font-size:.9rem;color:var(--tx2);line-height:1.75;}
+.rule-num{font-family:var(--fd);font-size:.95rem;color:var(--gold);flex-shrink:0;min-width:24px;padding-top:2px;}
+.sdb-card{padding:26px 28px;border-radius:var(--r);margin-bottom:16px;}
+[data-theme="light"] .sdb-card{background:rgba(255,255,255,.8);border:1px solid rgba(0,0,0,.08);}
+.sdb-label{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.sdb-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}
+.sdb-row:last-child{margin-bottom:0;}
+.sdb-icon{width:34px;height:34px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;}
+.sdb-dl{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:3px;}
+.sdb-dv{font-size:.88rem;font-weight:500;color:var(--tx);}
+.reg-btn{display:block;width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-lt));color:#0a0800;font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:16px;border-radius:40px;border:none;cursor:pointer;text-align:center;transition:transform .3s,box-shadow .3s;}
+.reg-btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 14px 44px var(--glow);}
+@media(max-width:960px){.det-layout{grid-template-columns:1fr;}.det-sidebar{position:static;}.switcher-inner{padding:0 20px;}}
+</style>
+</head>
+<body>
+<div id="nav-root"></div>
+<div class="switcher-bar">
+  <div class="switcher-inner">
+    <div class="breadcrumb"><a href="events.html">Events</a> / <span id="bcName">Loading…</span></div>
+    <div class="ev-sel-wrap">
+      <label>Jump to:</label>
+      <select class="ev-sel" id="evSel" aria-label="Select event" onchange="switchEv(this.value)"><option>Loading…</option></select>
+    </div>
+  </div>
+</div>
+<section class="det-section">
+  <div class="container">
+    <a href="events.html" class="back-link">Back to Events</a>
+    <div class="det-layout" id="detLayout"><div class="load-msg">Loading event…</div></div>
+  </div>
+</section>
+<div id="foot-root"></div>
+<script src="js/config.js"></script>
+<script>
+let allEvs=[],curIdx=0;
+function getIdx(){return parseInt(new URLSearchParams(location.search).get('event')||'0');}
+function updateURL(i){history.replaceState({},'',`event-detail.html?event=${i}`);}
+function fillSel(){const sel=document.getElementById('evSel');sel.innerHTML=allEvs.map((ev,i)=>`<option value="${i}" ${i===curIdx?'selected':''}>${ev.name}</option>`).join('');}
+function switchEv(i){curIdx=parseInt(i);updateURL(curIdx);renderDet(curIdx);window.scrollTo({top:0,behavior:'smooth'});}
+function renderDet(i){
+  const ev=allEvs[i];if(!ev)return;
+  document.title=`${ev.name} – Nisadya`;
+  document.getElementById('bcName').textContent=ev.name;
+  document.getElementById('evSel').value=i;
+  document.getElementById('detLayout').innerHTML=`
+    <div>
+      <div class="det-name rv">${ev.name}</div>
+      <div class="det-date rv">${ev.date||'Date TBA'}</div>
+      <div class="det-block rv"><div class="det-block-label">About the Event</div><div class="det-text">${ev.details||'Details coming soon.'}</div></div>
+      ${ev.rules.length?`<div class="det-block rv"><div class="det-block-label">Rules & Guidelines</div><ul class="rules-list">${ev.rules.map((r,j)=>`<li><span class="rule-num">${String(j+1).padStart(2,'0')}</span><span>${r}</span></li>`).join('')}</ul></div>`:''}
+    </div>
+    <div class="det-sidebar">
+      <div class="sdb-card glass rv"><div class="sdb-label">Event Incharge</div>
+        <div class="sdb-row"><div class="sdb-icon">👤</div><div><div class="sdb-dl">Name</div><div class="sdb-dv">${ev.incharge||'—'}</div></div></div>
+        <div class="sdb-row"><div class="sdb-icon">📞</div><div><div class="sdb-dl">Contact</div><div class="sdb-dv">${ev.contact||'—'}</div></div></div>
+      </div>
+      <div class="sdb-card glass rv d1" style="padding:20px 28px;"><div class="sdb-label">Event Date</div><div style="font-family:var(--fs);font-size:1.1rem;font-weight:700;color:var(--tx);">${ev.date||'TBA'}</div></div>
+      <a href="${ev.unstop}" target="_blank" class="reg-btn rv d2">Register on Unstop →</a>
+    </div>`;
+  reObserve();
+}
+async function init(){
+  try{
+    const res=await fetch(sheetUrl(CONFIG.sheets.eventsSheetId,CONFIG.sheetTabs.events));
+    if(!res.ok)throw new Error();
+    allEvs=parseCSV(await res.text()).map(mapEvent);
+    curIdx=Math.max(0,Math.min(getIdx(),allEvs.length-1));
+    fillSel();renderDet(curIdx);
+    addSearchItems(allEvs.map((ev,i)=>({tag:'Event',title:ev.name,snippet:`${ev.date||''} · ${ev.details.slice(0,90)}`,url:`event-detail.html?event=${i}`})));
+  }catch(e){
+    document.getElementById('detLayout').innerHTML='<div class="load-msg">Failed to load. Check Sheet ID.</div>';
+  }
+}
+boot('events',init);
+</script>
+</body>
+</html>
