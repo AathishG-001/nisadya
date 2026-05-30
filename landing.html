@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Nisadya 2025 – Enter</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Inter:wght@300;400&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;}
+
+/* ── CANVAS ── */
+#bg{position:fixed;inset:0;z-index:0;}
+
+/* ── PARTICLES ── */
+#pc{position:fixed;inset:0;z-index:1;pointer-events:none;}
+
+/* ── VIGNETTE ── */
+.vignette{position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,.85) 100%);}
+
+/* ── GRAIN ── */
+.grain{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px;}
+
+/* ── CENTER CONTENT ── */
+.center{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+
+/* Logo */
+.logo-wrap{position:relative;margin-bottom:40px;}
+.logo-img{width:clamp(140px,20vw,220px);height:auto;
+  filter:drop-shadow(0 0 40px rgba(201,147,58,.5)) drop-shadow(0 0 80px rgba(201,147,58,.2));
+  animation:logoFloat 4s ease-in-out infinite, logoReveal 1.8s cubic-bezier(0.16,1,0.3,1) both;}
+.logo-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,147,58,.18) 0%,transparent 70%);
+  animation:glowPulse 3s ease-in-out infinite;}
+
+/* Title */
+.entry-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,8vw,7rem);
+  letter-spacing:14px;text-align:center;line-height:1;
+  background:linear-gradient(160deg,#fff 20%,#E8C97A 55%,#C9933A 85%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 30px rgba(201,147,58,.3));
+  animation:fadeUp .9s .4s cubic-bezier(0.16,1,0.3,1) both;}
+
+.entry-sub{font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(.9rem,2vw,1.2rem);letter-spacing:4px;color:rgba(240,236,228,.5);
+  margin-top:12px;text-align:center;
+  animation:fadeUp .9s .6s cubic-bezier(0.16,1,0.3,1) both;}
+
+/* Divider */
+.divider{display:flex;align-items:center;gap:16px;margin:36px 0;
+  animation:fadeUp .9s .7s cubic-bezier(0.16,1,0.3,1) both;}
+.divider-line{width:80px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,147,58,.6));}
+.divider-line.r{background:linear-gradient(90deg,rgba(201,147,58,.6),transparent);}
+.divider-diamond{width:6px;height:6px;background:var(--g,#C9933A);transform:rotate(45deg);}
+
+/* Enter button */
+.enter-btn{position:relative;overflow:hidden;
+  font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;
+  letter-spacing:5px;text-transform:uppercase;
+  color:#0a0800;background:linear-gradient(135deg,#C9933A,#E8C97A,#C9933A);
+  background-size:200% 200%;
+  padding:18px 56px;border:none;border-radius:60px;cursor:pointer;
+  animation:fadeUp .9s .85s cubic-bezier(0.16,1,0.3,1) both, gradShift 3s ease infinite;
+  transition:transform .4s cubic-bezier(0.34,1.56,0.64,1), box-shadow .4s;}
+.enter-btn::before{content:'';position:absolute;inset:0;border-radius:inherit;
+  background:rgba(255,255,255,0);transition:background .3s;}
+.enter-btn:hover{transform:scale(1.06) translateY(-3px);
+  box-shadow:0 20px 60px rgba(201,147,58,.45),0 0 0 1px rgba(201,147,58,.3);}
+.enter-btn:hover::before{background:rgba(255,255,255,.12);}
+.enter-btn:active{transform:scale(.98);}
+
+/* Ripple */
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.3);
+  transform:scale(0);animation:rippleAnim .6s linear;}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0;}}
+
+/* Year badge */
+.year-badge{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
+  font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:4px;
+  text-transform:uppercase;color:rgba(240,236,228,.25);
+  animation:fadeIn 1s 1.5s both;}
+
+/* Transition overlay */
+.transition-overlay{position:fixed;inset:0;z-index:100;
+  background:#C9933A;transform:scaleY(0);transform-origin:bottom;
+  transition:transform .8s cubic-bezier(0.76,0,0.24,1);}
+.transition-overlay.active{transform:scaleY(1);}
+
+/* Scanlines */
+.scanlines{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:.03;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,1) 2px,rgba(0,0,0,1) 4px);}
+
+@keyframes logoFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+@keyframes logoReveal{from{opacity:0;transform:translateY(30px) scale(.9);}to{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes glowPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.6;}50%{transform:translate(-50%,-50%) scale(1.3);opacity:1;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes gradShift{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+<canvas id="pc"></canvas>
+<div class="vignette"></div>
+<div class="grain"></div>
+<div class="scanlines"></div>
+
+<div class="center">
+  <div class="logo-wrap">
+    <div class="logo-glow"></div>
+    <img class="logo-img" src="https://lh3.googleusercontent.com/d/1aIR3Y9QXJZ8E8eG2rquYECnUoL07Mxsz" alt="Nisadya"/>
+  </div>
+  <h1 class="entry-title">NISADYA</h1>
+  <p class="entry-sub">The National Management Conclave</p>
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-diamond"></div>
+    <div class="divider-line r"></div>
+  </div>
+  <button class="enter-btn" id="enterBtn" onclick="enterSite(event)">
+    Enter Experience
+  </button>
+</div>
+
+<div class="year-badge">DoMS · NIT Tiruchirappalli · 2025</div>
+
+
+<script>
+/* ── AURORA / NEBULA BACKGROUND ── */
+(function(){
+  const c=document.getElementById('bg'),ctx=c.getContext('2d');
+  let W,H,t=0;
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  window.addEventListener('resize',resize);resize();
+  const orbs=[
+    {x:.2,y:.3,r:.35,c:'rgba(60,20,80,',spd:.0003},
+    {x:.8,y:.7,r:.3,c:'rgba(100,50,10,',spd:.0004},
+    {x:.5,y:.5,r:.4,c:'rgba(30,10,60,',spd:.0002},
+    {x:.1,y:.8,r:.25,c:'rgba(80,30,5,',spd:.0005},
+    {x:.9,y:.2,r:.28,c:'rgba(50,15,70,',spd:.00035},
+  ];
+  function draw(){
+    ctx.fillStyle='#030008';ctx.fillRect(0,0,W,H);
+    orbs.forEach((o,i)=>{
+      const ox=o.x*W+Math.sin(t*o.spd*1000+i)*W*.06;
+      const oy=o.y*H+Math.cos(t*o.spd*1000+i*1.3)*H*.06;
+      const r=o.r*Math.max(W,H);
+      const g=ctx.createRadialGradient(ox,oy,0,ox,oy,r);
+      g.addColorStop(0,o.c+'.18)');g.addColorStop(.5,o.c+'.08)');g.addColorStop(1,o.c+'0)');
+      ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    });
+    // Gold dust streaks
+    ctx.save();
+    for(let i=0;i<3;i++){
+      const x=W*(0.2+i*.3)+Math.sin(t*.0003+i)*W*.1;
+      const g2=ctx.createLinearGradient(x-200,0,x+200,H);
+      g2.addColorStop(0,'rgba(201,147,58,0)');
+      g2.addColorStop(.5,`rgba(201,147,58,${.015+Math.sin(t*.001+i)*.01})`);
+      g2.addColorStop(1,'rgba(201,147,58,0)');
+      ctx.fillStyle=g2;ctx.fillRect(0,0,W,H);
+    }
+    ctx.restore();
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── PARTICLES ── */
+(function(){
+  const c=document.getElementById('pc'),ctx=c.getContext('2d');
+  let W,H;
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  window.addEventListener('resize',()=>{resize();init();});resize();
+  let pts=[];
+  function init(){
+    pts=Array.from({length:120},()=>({
+      x:Math.random()*W,y:Math.random()*H,
+      vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,
+      r:Math.random()*1.4+.3,o:Math.random()*.6+.1,
+      gold:Math.random()>.5
+    }));
+  }
+  init();
+  let mx=W/2,my=H/2;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      // Mouse repel
+      const dx=p.x-mx,dy=p.y-my,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){p.vx+=dx/d*.015;p.vy+=dy/d*.015;}
+      const spd=Math.sqrt(p.vx*p.vx+p.vy*p.vy);
+      if(spd>.7){p.vx=p.vx/spd*.7;p.vy=p.vy/spd*.7;}
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.gold?`rgba(201,147,58,${p.o})`:`rgba(255,255,255,${p.o*.4})`;
+      ctx.fill();
+    });
+    // Connections
+    pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{
+      const dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<100){
+        ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+        ctx.strokeStyle=`rgba(201,147,58,${.12*(1-d/100)})`;ctx.lineWidth=.5;ctx.stroke();
+      }
+    }));
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── ENTER ── */
+function enterSite(e){
+  const btn=document.getElementById('enterBtn');
+  // Ripple effect
+  const r=document.createElement('span');r.className='ripple';
+  const rect=btn.getBoundingClientRect();
+  const size=Math.max(rect.width,rect.height)*2;
+  r.style.cssText=`width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`;
+  btn.appendChild(r);
+  // Fade out body then navigate — no overlay div needed
+  setTimeout(()=>{
+    document.body.style.transition='opacity 0.5s ease';
+    document.body.style.opacity='0';
+    setTimeout(()=>{ location.href='index.html'; }, 520);
+  }, 150);
+}
+
+// Keyboard enter
+document.addEventListener('keydown',e=>{if(e.key==='Enter')enterSite({clientX:innerWidth/2,clientY:innerHeight/2});});
+</script>
+</body>
+</html>
