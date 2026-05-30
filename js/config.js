@@ -1,18 +1,30 @@
-/* ══ CONFIG — only file you edit each year ══ */
+/* ══ CONFIG — edit only this file each year ══ */
 const CONFIG = {
-  logos: ["1aIR3Y9QXJZ8E8eG2rquYECnUoL07Mxsz"],  // Drive File IDs: ["ID1","ID2","ID3"]
-  hero: { images: ["1ALCRVrYGO9tyG0m834ckoaEtMmueIqcc"], videos: [] },
+  logos: ["1aIR3Y9QXJZ8E8eG2rquYECnUoL07Mxsz"],   // Drive File IDs: ["ID1","ID2","ID3"]
+  hero: { images: ["https://lh3.googleusercontent.com/d/1ALCRVrYGO9tyG0m834ckoaEtMmueIqcc"], videos: [] },
   sheets: { eventsSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4", scheduleSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4" },
   sheetTabs: { events:"Events", schedule:"Schedule" },
-  instagramReels: ["https://www.instagram.com/nisadya.nitt/p/DVOlctWidVl/","https://www.instagram.com/nisadya.nitt/p/DVOk_0ZiTdb/","https://www.instagram.com/nisadya.nitt/p/DVOklPPiYot/"
+  instagramReels: ["https://www.instagram.com/nisadya.nitt/p/DVOlctWidVl/", "https://www.instagram.com/nisadya.nitt/p/DVOk_0ZiTdb/", "https://www.instagram.com/nisadya.nitt/p/DVOklPPiYot/"
     // "https://www.instagram.com/reel/REEL_ID/",
   ]
 };
 
-/* ── HELPERS ── */
+/*
+  SHEETS GUIDE
+  Tab "Events" columns A–H:
+  A=Event Name  B=Thumbnail Drive ID  C=Date  D=Details
+  E=Rules (pipe|separated)  F=Incharge Name  G=Contact  H=Unstop URL
+
+  Tab "Schedule" columns A–D:
+  A=Day(1 or 2)  B=Time  C=Event Name  D=Venue
+
+  Publish: File › Share › Publish to web › CSV › Publish
+*/
+
 const driveImg = id=>`https://drive.google.com/thumbnail?id=${id}&sz=w800`;
 const driveVid = id=>`https://drive.google.com/uc?export=download&id=${id}`;
 const sheetUrl = (sid,tab)=>`https://docs.google.com/spreadsheets/d/${sid}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`;
+
 function parseCSV(txt){
   const rows=[];
   txt.trim().split('\n').forEach((line,i)=>{
@@ -25,41 +37,12 @@ function parseCSV(txt){
 }
 function mapEvent(r){return{name:r[0]||'',thumb:r[1]||'',date:r[2]||'',details:r[3]||'',rules:(r[4]||'').split('|').map(s=>s.trim()).filter(Boolean),incharge:r[5]||'',contact:r[6]||'',unstop:r[7]||'#'};}
 
-/* ── PAGE TRANSITION — CSS only, no overlay div ── */
-function initPageTransition(){
-  // Remove any leftover overlay from old versions
-  document.querySelectorAll('.page-transition').forEach(el => el.remove());
-
-  // Intercept internal links — fade body out, then navigate
-  document.addEventListener('click', function(e){
-    const a = e.target.closest('a[href]');
-    if(!a) return;
-    const href = a.getAttribute('href');
-    if(!href || href.startsWith('#') || href.startsWith('http') ||
-       href.startsWith('mailto') || href.startsWith('javascript') || href.startsWith('tel')) return;
-    e.preventDefault();
-    document.body.style.transition = 'opacity 0.35s ease';
-    document.body.style.opacity = '0';
-    setTimeout(function(){ location.href = href; }, 360);
-  });
-
-  // Fade in on arrival
-  document.body.style.opacity = '0';
-  document.body.style.transition = 'none';
-  requestAnimationFrame(function(){
-    requestAnimationFrame(function(){
-      document.body.style.transition = 'opacity 0.5s ease';
-      document.body.style.opacity = '1';
-    });
-  });
-}
-
 /* ── LOGO ── */
 function initLogo(){
   const logos=(CONFIG.logos||[]).filter(Boolean);
   document.querySelectorAll('.logo-area').forEach(el=>{
     el.innerHTML=logos.length
-      ?logos.map(id=>`<img src="${driveImg(id)}" class="logo-img" alt="Logo"/>`).join('')
+      ?logos.map(id=>`<img src="${driveImg(id)}" class="logo-img" alt="Logo" onerror="this.style.display='none'"/>`).join('')
       :'<span class="wordmark">NISADYA</span>';
   });
 }
@@ -77,13 +60,13 @@ function toggleTheme(){
 }
 function _syncTheme(t){document.querySelectorAll('.theme-btn').forEach(b=>{b.textContent=t==='dark'?'☀️':'🌙';});}
 
-/* ── NAV ── */
+/* ── SCROLL PROGRESS + NAV SHRINK ── */
 function initNav(){
+  const bar=document.querySelector('.scroll-bar');
   window.addEventListener('scroll',()=>{
+    const pct=(scrollY/(document.body.scrollHeight-innerHeight))*100;
+    if(bar)bar.style.width=pct+'%';
     document.getElementById('navbar')?.classList.toggle('scrolled',scrollY>50);
-    // scroll progress
-    const bar=document.querySelector('.scroll-progress-bar');
-    if(bar){const pct=(scrollY/(document.body.scrollHeight-innerHeight))*100;bar.style.width=pct+'%';}
   });
   const page=location.pathname.split('/').pop()||'index.html';
   document.querySelectorAll('.nav-links a').forEach(a=>{if(a.getAttribute('href')===page)a.classList.add('active');});
@@ -103,12 +86,12 @@ function initCursor(){
     mx=e.clientX;my=e.clientY;
     if(!started){started=true;dot.classList.add('on');ring.classList.add('on');}
   });
-  document.addEventListener('mouseover',e=>{if(e.target.closest('a,button,.tilt,.event-card,.btn,.ig-cell'))ring.classList.add('h');});
-  document.addEventListener('mouseout',e=>{if(e.target.closest('a,button,.tilt,.event-card,.btn,.ig-cell'))ring.classList.remove('h');});
+  document.addEventListener('mouseover',e=>{if(e.target.closest('a,button,.tilt,.event-card,.btn,.ig-cell,.scene-card'))ring.classList.add('h');});
+  document.addEventListener('mouseout',e=>{if(e.target.closest('a,button,.tilt,.event-card,.btn,.ig-cell,.scene-card'))ring.classList.remove('h');});
   (function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;dot.style.left=mx+'px';dot.style.top=my+'px';ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
 }
 
-/* ── REVEAL ── */
+/* ── SCROLL REVEAL ── */
 function initReveal(){
   const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}});},{threshold:.08});
   document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>obs.observe(el));
@@ -123,56 +106,37 @@ function initTilt(){
   document.querySelectorAll('.tilt').forEach(card=>{
     card.addEventListener('mousemove',e=>{
       const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
-      card.style.transform=`perspective(900px) rotateY(${x*14}deg) rotateX(${-y*14}deg) scale3d(1.03,1.03,1.03)`;
+      card.style.transform=`perspective(900px) rotateY(${x*16}deg) rotateX(${-y*12}deg) scale3d(1.04,1.04,1.04)`;
       const s=card.querySelector('.tilt-shine');
       if(s){s.style.setProperty('--mx',`${(x+.5)*100}%`);s.style.setProperty('--my',`${(y+.5)*100}%`);}
     });
-    card.addEventListener('mouseleave',()=>{card.style.transform='perspective(900px) rotateY(0) rotateX(0) scale3d(1,1,1)';});
+    card.addEventListener('mouseleave',()=>{card.style.transform='perspective(900px) rotateY(0) rotateX(0) scale3d(1,1,1)';card.style.transition='transform .8s var(--ease)';});
+    card.addEventListener('mouseenter',()=>{card.style.transition='transform .1s';});
   });
 }
 
-/* ── MAGNETIC ── */
+/* ── MAGNETIC BUTTONS ── */
 function initMagnetic(){
   document.querySelectorAll('.mag').forEach(btn=>{
-    btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.35}px,${(e.clientY-r.top-r.height/2)*.35}px)`;});
+    btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.4}px,${(e.clientY-r.top-r.height/2)*.4}px)`;});
     btn.addEventListener('mouseleave',()=>{btn.style.transform='';});
   });
 }
 
-/* ── PARALLAX ── */
-function initParallax(){
-  const els=document.querySelectorAll('[data-parallax]');
-  if(!els.length)return;
-  window.addEventListener('scroll',()=>{els.forEach(el=>{el.style.transform=`translateY(${scrollY*(parseFloat(el.dataset.parallax)||.3)}px)`;});});
-}
-
-/* ── HORIZONTAL SCROLL TEXT ── */
-function initScrollText(){
-  const els=document.querySelectorAll('.scroll-text');
-  if(!els.length)return;
-  window.addEventListener('scroll',()=>{
-    els.forEach(el=>{
-      const rect=el.closest('section')?.getBoundingClientRect();
-      if(!rect)return;
-      const prog=1-(rect.bottom/(innerHeight+rect.height));
-      el.style.transform=`translateX(${prog*-200}px)`;
-    });
-  });
-}
-
 /* ── COUNTER ANIMATION ── */
-function animateCounters(){
-  document.querySelectorAll('.counter').forEach(el=>{
-    const target=parseFloat(el.dataset.target);const suffix=el.dataset.suffix||'';
-    let start=0;const dur=1800;const step=timestamp=>{
-      if(!start)start=timestamp;
-      const prog=Math.min((timestamp-start)/dur,1);
-      const val=Math.floor(prog*target);
-      el.textContent=val+(prog===1?suffix:'');
-      if(prog<1)requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  });
+function initCounters(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting&&!e.target.dataset.done){
+        e.target.dataset.done='1';
+        const t=parseInt(e.target.dataset.count)||0,s=e.target.dataset.suffix||'';
+        let st=null;
+        const step=ts=>{if(!st)st=ts;const p=Math.min((ts-st)/1800,1);e.target.textContent=Math.floor(p*t)+(p===1?s:'');if(p<1)requestAnimationFrame(step);};
+        requestAnimationFrame(step);
+      }
+    });
+  },{threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(el=>obs.observe(el));
 }
 
 /* ── SEARCH ── */
@@ -205,10 +169,10 @@ function _doSearch(q){
   res.innerHTML=hits.map(i=>`<a href="${i.url}" class="srch-item" onclick="closeSearch()"><div class="srch-tag">${i.tag}</div><div class="srch-title">${_hi(i.title,q)}</div><div class="srch-snip">${_hi(i.snippet,q)}</div></a>`).join('');
 }
 
-/* ── NAV + FOOTER HTML ── */
+/* ── NAV HTML ── */
 function renderNav(p){
   return`
-<div class="scroll-progress"><div class="scroll-progress-bar"></div></div>
+<div class="scroll-bar"></div>
 <nav id="navbar">
   <a href="index.html" class="nav-logo"><div class="logo-area"></div></a>
   <ul class="nav-links">
@@ -241,6 +205,7 @@ function renderNav(p){
 <div class="cur-dot"></div>
 <div class="cur-ring"></div>`;
 }
+
 function renderFooter(){
   return`<footer>
   <div class="ft-logo">NISADYA</div>
@@ -253,10 +218,11 @@ function renderFooter(){
   <div class="ft-copy">© 2025 Nisadya · Department of Management Studies · NIT Tiruchirappalli</div>
 </footer>`;
 }
-function boot(page,pageInit){
+
+function boot(page, pageInit){
   document.getElementById('nav-root').innerHTML=renderNav(page);
   document.getElementById('foot-root').innerHTML=renderFooter();
-  initTheme();initLogo();initNav();initReveal();initCursor();
-  initTilt();initMagnetic();initParallax();initSearch();initPageTransition();initScrollText();
-  if(pageInit)pageInit();
+  initTheme(); initLogo(); initNav(); initReveal();
+  initCursor(); initTilt(); initMagnetic(); initCounters(); initSearch();
+  if(pageInit) pageInit();
 }
