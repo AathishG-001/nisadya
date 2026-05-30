@@ -4,7 +4,7 @@ const CONFIG = {
   hero: { images: ["https://lh3.googleusercontent.com/d/1ALCRVrYGO9tyG0m834ckoaEtMmueIqcc"], videos: [] },
   sheets: { eventsSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4", scheduleSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4" },
   sheetTabs: { events:"Events", schedule:"Schedule" },
-  instagramReels: ["https://www.instagram.com/nisadya.nitt/p/DVOlctWidVl/", "https://www.instagram.com/nisadya.nitt/p/DVOk_0ZiTdb/", "https://www.instagram.com/nisadya.nitt/p/DVOklPPiYot/"
+  instagramReels: ["https://www.instagram.com/nisadya.nitt/p/DVOlctWidVl/", "https://www.instagram.com/nisadya.nitt/p/DVOk_0ZiTdb/", "https://www.instagram.com/nisadya.nitt/p/DVOklPPiYot/", "https://www.instagram.com/nisadya.nitt/p/DXKZIzQjGpC/", "https://www.instagram.com/nisadya.nitt/reel/DVSzDPVCVu6/", "https://www.instagram.com/nisadya.nitt/reel/DVOW9jNCcfw/","https://www.instagram.com/nisadya.nitt/p/DVMHviiAZ3c/","https://www.instagram.com/nisadya.nitt/reel/DU8qMLWAThw/","https://www.instagram.com/nisadya.nitt/reel/DUd6d8kE7nd/"
     // "https://www.instagram.com/reel/REEL_ID/",
   ]
 };
