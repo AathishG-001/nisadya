@@ -1,6 +1,6 @@
 /* ══ CONFIG — only file you edit each year ══ */
 const CONFIG = {
-  logos: ["https://lh3.googleusercontent.com/d/1aIR3Y9QXJZ8E8eG2rquYECnUoL07Mxsz","https://nisadya.in/NLCIL%20Logo%20CMYK_.png","https://nisadya.in/college_logo.svg"],  // Drive File IDs: ["ID1","ID2","ID3"]
+  logos: ["1aIR3Y9QXJZ8E8eG2rquYECnUoL07Mxsz",""],  // Drive File IDs: ["ID1","ID2","ID3"]
   hero: { images: [], videos: [] },
   sheets: { eventsSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4", scheduleSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4" },
   sheetTabs: { events:"Events", schedule:"Schedule" },
