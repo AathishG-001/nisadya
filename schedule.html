@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Schedule – Nisadya</title>
+<link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div id="nav-root"></div>
+<div class="ph"><div class="ph-glow"></div><div class="ph-grid"></div>
+  <p class="ph-label">Programme</p>
+  <h1 class="ph-title">SCHEDULE</h1>
+  <p class="ph-sub">Two days. Every moment mapped.</p>
+</div>
+<section class="sched-section">
+  <div class="container">
+    <span class="eyebrow rv">Timeline</span>
+    <h2 class="sec-title rv">Event Schedule</h2>
+    <div class="sec-line rv"></div>
+    <div class="sched-grid">
+      <div class="sched-card glass rv">
+        <div class="sched-header"><div class="sched-label"><h3>DAY 1</h3><span>Programme</span></div><div class="sched-num">01</div></div>
+        <div class="tl-list" id="day1"></div>
+      </div>
+      <div class="sched-card glass rv d2">
+        <div class="sched-header"><div class="sched-label"><h3>DAY 2</h3><span>Programme</span></div><div class="sched-num">02</div></div>
+        <div class="tl-list" id="day2"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div id="foot-root"></div>
+<script src="js/config.js"></script>
+<script>
+function renderTL(id,rows){
+  const el=document.getElementById(id);
+  if(!rows.length){el.innerHTML='<div style="padding:36px 28px;color:var(--tx3);font-size:.82rem;letter-spacing:1px;">No entries yet.</div>';return;}
+  el.innerHTML=rows.map(r=>`
+    <div class="tl-item">
+      <div class="tl-dot-col"><div class="tl-dot"></div></div>
+      <div class="tl-body">
+        <div class="tl-time">${r[1]||''}</div>
+        <div class="tl-event">${r[2]||''}</div>
+        ${r[3]?`<div class="tl-venue">${r[3]}</div>`:''}
+      </div>
+    </div>`).join('');
+}
+async function loadSchedule(){
+  try{
+    const res=await fetch(sheetUrl(CONFIG.sheets.scheduleSheetId,CONFIG.sheetTabs.schedule));
+    if(!res.ok)throw new Error();
+    const rows=parseCSV(await res.text());
+    renderTL('day1',rows.filter(r=>r[0]==='1'));
+    renderTL('day2',rows.filter(r=>r[0]==='2'));
+    addSearchItems(rows.filter(r=>r[2]).map(r=>({tag:'Schedule',title:r[2],snippet:`Day ${r[0]} · ${r[1]||''} · ${r[3]||''}`,url:'schedule.html'})));
+  }catch(e){
+    ['day1','day2'].forEach(id=>{document.getElementById(id).innerHTML='<div style="padding:36px 28px;color:var(--tx3);font-size:.82rem;">Failed to load. Check Sheet ID.</div>';});
+  }
+}
+boot('schedule',loadSchedule);
+</script>
+</body>
+</html>
