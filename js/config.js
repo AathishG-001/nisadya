@@ -1,7 +1,7 @@
 /* ══ CONFIG — only file you edit each year ══ */
 const CONFIG = {
-  logos: ["1aIR3Y9QXJZ8E8eG2rquYECnUoL07Mxsz",""],  // Drive File IDs: ["ID1","ID2","ID3"]
-  hero: { images: [], videos: [] },
+  logos: ["1aIR3Y9QXJZ8E8eG2rquYECnUoL07Mxsz"],  // Drive File IDs: ["ID1","ID2","ID3"]
+  hero: { images: ["1ALCRVrYGO9tyG0m834ckoaEtMmueIqcc"], videos: [] },
   sheets: { eventsSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4", scheduleSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4" },
   sheetTabs: { events:"Events", schedule:"Schedule" },
   instagramReels: ["https://www.instagram.com/nisadya.nitt/p/DVOlctWidVl/","https://www.instagram.com/nisadya.nitt/p/DVOk_0ZiTdb/","https://www.instagram.com/nisadya.nitt/p/DVOklPPiYot/"
