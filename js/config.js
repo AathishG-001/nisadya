@@ -1,11 +1,33 @@
 /* ══ CONFIG — edit only this file each year ══ */
 const CONFIG = {
   logos: ["1aIR3Y9QXJZ8E8eG2rquYECnUoL07Mxsz"],   // Drive File IDs: ["ID1","ID2","ID3"]
-  hero: { images: ["1ALCRVrYGO9tyG0m834ckoaEtMmueIqcc"], videos: [] },
+  hero: { images: [], videos: [] },
   sheets: { eventsSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4", scheduleSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4" },
   sheetTabs: { events:"Events", schedule:"Schedule" },
-  instagramReels: ["https://www.instagram.com/nisadya.nitt/p/DVOlctWidVl/", "https://www.instagram.com/nisadya.nitt/p/DVOk_0ZiTdb/", "https://www.instagram.com/nisadya.nitt/p/DVOklPPiYot/", "https://www.instagram.com/nisadya.nitt/p/DXKZIzQjGpC/", "https://www.instagram.com/nisadya.nitt/reel/DVSzDPVCVu6/", "https://www.instagram.com/nisadya.nitt/reel/DVOW9jNCcfw/","https://www.instagram.com/nisadya.nitt/p/DVMHviiAZ3c/","https://www.instagram.com/nisadya.nitt/reel/DU8qMLWAThw/","https://www.instagram.com/nisadya.nitt/reel/DUd6d8kE7nd/"
-    // "https://www.instagram.com/reel/REEL_ID/",
+  /*
+    INSTAGRAM REELS
+    ───────────────
+    How to add reels:
+    1. Open https://www.instagram.com/nisadya.nitt/
+    2. Tap any reel → 3-dot menu (⋮) → Copy Link
+    3. Paste the URL below inside the array
+
+    Each URL looks like:
+    "https://www.instagram.com/reel/ABC123DEF456/"
+
+    The grid will show the reel thumbnail automatically.
+    Clicking opens the reel in a fullscreen player.
+  */
+  instagramReels: ["https://www.instagram.com/nisadya.nitt/p/DXKZIzQjGpC/","https://www.instagram.com/nisadya.nitt/reel/DVSzDPVCVu6/","https://www.instagram.com/nisadya.nitt/reel/DVOW9jNCcfw/"."https://www.instagram.com/nisadya.nitt/reel/DU8qMLWAThw/","https://www.instagram.com/nisadya.nitt/reel/DUd6d8kE7nd/"
+    // "https://www.instagram.com/reel/REEL_ID_1/",
+    // "https://www.instagram.com/reel/REEL_ID_2/",
+    // "https://www.instagram.com/reel/REEL_ID_3/",
+    // "https://www.instagram.com/reel/REEL_ID_4/",
+    // "https://www.instagram.com/reel/REEL_ID_5/",
+    // "https://www.instagram.com/reel/REEL_ID_6/",
+    // "https://www.instagram.com/reel/REEL_ID_7/",
+    // "https://www.instagram.com/reel/REEL_ID_8/",
+    // "https://www.instagram.com/reel/REEL_ID_9/",
   ]
 };
 
