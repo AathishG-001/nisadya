@@ -297,10 +297,27 @@ footer{background:var(--bg);border-top:1px solid var(--bdr2);padding:60px 0 32px
 /* ══ RESPONSIVE ══ */
 @media(max-width:1024px){.container{padding:0 32px;}}
 @media(max-width:768px){
-  nav{padding:14px 24px;}nav.scrolled{padding:10px 24px;}
-  .nav-links,.nav-cta{display:none;}.ham{display:flex;}
+  nav{padding:12px 20px;}
+  nav.scrolled{padding:9px 20px;}
+  .nav-links,.nav-cta{display:none;}
+  .ham{display:flex;}
+  /* Make nav-r compact on mobile */
+  .nav-r{gap:6px;}
+  .nav-icon{width:32px;height:32px;font-size:.75rem;}
+  /* Logo area smaller on mobile */
+  .logo-area{height:34px;}
+  .logo-area .logo-img{height:30px;}
+  .logo-area .wordmark{font-size:1.2rem;letter-spacing:3px;}
+  [data-theme="light"] .logo-area{padding:3px 10px 3px 5px;}
+  /* Mobile menu full screen */
+  .mob-menu a{font-size:2rem;letter-spacing:4px;}
   .container{padding:0 20px;}
   .sched-grid,.ct-grid,.inst-grid,.about-grid{grid-template-columns:1fr;}
   section{padding:70px 0;}
 }
-@media(max-width:480px){.ph{padding:130px 20px 60px;}}
+@media(max-width:480px){
+  .ph{padding:120px 16px 50px;}
+  nav{padding:10px 16px;}
+  .nav-r{gap:4px;}
+  .nav-icon{width:30px;height:30px;font-size:.7rem;}
+}
