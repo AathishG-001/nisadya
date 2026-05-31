@@ -5,21 +5,29 @@
 <title>Events – Nisadya</title>
 <link rel="stylesheet" href="css/style.css"/>
 <style>
-.events-section{background:var(--bg);padding:90px 0 120px;}
-.events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-top:56px;}
-.event-card{border-radius:var(--rl);overflow:hidden;position:relative;transition:transform .4s var(--ease),border-color .4s;cursor:pointer;display:flex;flex-direction:column;}
-.event-card:hover{border-color:var(--gold)!important;transform:translateY(-6px);}
-[data-theme="light"] .event-card{background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.08);box-shadow:0 4px 20px rgba(0,0,0,.07);}
-.event-thumb{height:200px;overflow:hidden;background:var(--bg3);position:relative;flex-shrink:0;}
-.event-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease);}
-.event-card:hover .event-thumb img{transform:scale(1.08);}
+.events-section{background:var(--bg);padding:90px 0 120px;position:relative;overflow:hidden;}
+.events-bg-text{position:absolute;bottom:-20px;right:-40px;font-family:var(--fd);font-size:clamp(8rem,16vw,16rem);color:rgba(201,147,58,.025);line-height:1;pointer-events:none;-webkit-user-select:none;user-select:none;white-space:nowrap;}
+.events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin-top:56px;position:relative;z-index:1;}
+.event-card{border-radius:var(--rl);overflow:hidden;position:relative;transition:transform .4s var(--ease),box-shadow .4s;cursor:pointer;display:flex;flex-direction:column;background:var(--surf);border:1px solid var(--bdr2);}
+.event-card:hover{transform:translateY(-10px) scale(1.01);box-shadow:0 30px 60px rgba(0,0,0,.4);border-color:var(--gold)!important;}
+[data-theme="light"] .event-card{background:rgba(255,255,255,.85);border-color:rgba(0,0,0,.08);box-shadow:0 4px 20px rgba(0,0,0,.07);}
+.event-thumb{height:200px;overflow:hidden;background:var(--bg3);flex-shrink:0;position:relative;}
+.event-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease);}
+.event-card:hover .event-thumb img{transform:scale(1.1);}
+.event-thumb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,15,.6) 0%,transparent 60%);opacity:0;transition:opacity .4s;}
+.event-card:hover .event-thumb-overlay{opacity:1;}
 .thumb-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg3),var(--bg2));position:relative;}
-.thumb-fallback::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 120%,rgba(201,147,58,.15),transparent 70%);}
-.thumb-initials{font-family:var(--fd);font-size:4rem;letter-spacing:4px;color:rgba(201,147,58,.25);position:relative;z-index:1;}
+.thumb-fallback::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 120%,rgba(201,147,58,.18),transparent 70%);}
+.thumb-initials{font-family:var(--fd);font-size:4rem;letter-spacing:4px;color:rgba(201,147,58,.28);position:relative;z-index:1;}
 .event-body{padding:26px 26px 28px;display:flex;flex-direction:column;flex:1;}
 .event-name{font-family:var(--fs);font-size:1.25rem;font-weight:700;margin-bottom:6px;line-height:1.3;color:var(--tx);}
 .event-date{font-size:.64rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
 .event-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;}
+/* Filter tabs */
+.filter-bar{display:flex;gap:12px;margin-bottom:48px;flex-wrap:wrap;}
+.filter-btn{padding:9px 22px;border-radius:40px;border:1px solid var(--bdr2);background:transparent;color:var(--tx2);font-family:var(--fb);font-size:.68rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s var(--ease);}
+.filter-btn.active,.filter-btn:hover{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);}
+@media(max-width:600px){.events-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -30,6 +38,7 @@
   <p class="ph-sub">Choose your arena. Prove your edge.</p>
 </div>
 <section class="events-section">
+  <div class="events-bg-text">EVENTS</div>
   <div class="container">
     <span class="eyebrow">All Competitions</span>
     <h2 class="sec-title">Events at Nisadya</h2>
@@ -52,9 +61,12 @@ async function loadEvents(){
     window._events=rows.map(mapEvent);
     addSearchItems(window._events.map((ev,i)=>({tag:'Event',title:ev.name,snippet:`${ev.date||'Date TBA'} · ${ev.details.slice(0,90)}`,url:`event-detail.html?event=${i}`})));
     grid.innerHTML=window._events.map((ev,i)=>`
-      <div class="event-card glass tilt rv" style="transition-delay:${Math.min(i*.07,.4)}s">
+      <div class="event-card tilt rv" style="transition-delay:${Math.min(i*.07,.4)}s">
         <div class="tilt-shine"></div>
-        <div class="event-thumb">${ev.thumb?`<img src="${driveImg(ev.thumb)}" alt="${ev.name}" loading="lazy"/>`:`<div class="thumb-fallback"><div class="thumb-initials">${ev.name.substring(0,2).toUpperCase()}</div></div>`}</div>
+        <div class="event-thumb">
+          ${ev.thumb?`<img src="${driveImg(ev.thumb)}" alt="${ev.name}" loading="lazy"/>`:`<div class="thumb-fallback"><div class="thumb-initials">${ev.name.substring(0,2).toUpperCase()}</div></div>`}
+          <div class="event-thumb-overlay"></div>
+        </div>
         <div class="event-body">
           <div class="event-name">${ev.name}</div>
           <div class="event-date">${ev.date||'Date TBA'}</div>
