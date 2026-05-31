@@ -6,58 +6,62 @@
 <link rel="stylesheet" href="css/style.css"/>
 <style>
 .ig-grad{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.ig-grad-bg{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);}
-.ig-profile{padding:36px 44px;border-radius:var(--rl);margin-bottom:48px;display:flex;align-items:center;gap:36px;position:relative;overflow:hidden;}
+.ig-section{background:var(--bg);padding:80px 0 120px;position:relative;overflow:hidden;}
+.ig-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(90px);}
+.ig-orb-1{width:500px;height:500px;top:-150px;left:-100px;animation:float 9s ease-in-out infinite;background:radial-gradient(circle,rgba(131,58,180,.07),transparent);}
+.ig-orb-2{width:400px;height:400px;bottom:-100px;right:-80px;animation:float 7s ease-in-out infinite reverse;background:radial-gradient(circle,rgba(201,147,58,.08),transparent);}
+.ig-profile{padding:32px 40px;border-radius:var(--rl);margin-bottom:48px;display:flex;align-items:center;gap:32px;position:relative;overflow:hidden;transition:transform .4s var(--ease);}
+.ig-profile:hover{transform:translateY(-4px);}
 .ig-profile::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(131,58,180,.08),rgba(201,147,58,.06),rgba(255,100,50,.04));}
 [data-theme="light"] .ig-profile{background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.08);box-shadow:0 4px 30px rgba(0,0,0,.07);}
-.ig-avatar-ring{width:76px;height:76px;border-radius:50%;padding:3px;flex-shrink:0;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);}
-.ig-avatar-inner{width:100%;height:100%;border-radius:50%;background:var(--bg2);border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:1.8rem;}
-.ig-handle{font-family:var(--fd);font-size:1.8rem;letter-spacing:3px;}
+.ig-avatar-ring{width:72px;height:72px;border-radius:50%;padding:3px;flex-shrink:0;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);}
+.ig-avatar-inner{width:100%;height:100%;border-radius:50%;background:var(--bg2);border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:1.7rem;}
+.ig-handle{font-family:var(--fd);font-size:1.7rem;letter-spacing:3px;}
 .ig-handle-sub{font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx3);display:block;margin-bottom:10px;}
 .ig-bio{font-size:.85rem;color:var(--tx2);line-height:1.7;margin-bottom:16px;}
-.ig-follow{display:inline-flex;align-items:center;gap:8px;padding:11px 26px;border-radius:40px;border:none;cursor:pointer;font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#fff;transition:transform .3s var(--easeback),box-shadow .3s;}
+.ig-follow{display:inline-flex;align-items:center;gap:8px;padding:11px 26px;border-radius:40px;border:none;cursor:pointer;font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);transition:transform .3s var(--easeback),box-shadow .3s;}
 .ig-follow:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 10px 36px rgba(131,58,180,.35);}
 .ig-tabs{display:flex;border-bottom:1px solid var(--bdr2);margin-bottom:4px;}
 .ig-tab{padding:14px 24px;font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx3);cursor:pointer;border-bottom:2px solid transparent;transition:color .3s,border-color .3s;margin-bottom:-1px;}
 .ig-tab.active{color:var(--tx);border-bottom-color:var(--tx);}
+/* IG GRID — exact Instagram style */
 .ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:4px;}
 .ig-cell{position:relative;aspect-ratio:1/1;overflow:hidden;cursor:pointer;background:var(--bg3);}
 [data-theme="light"] .ig-cell{background:var(--bg2);}
 .ig-cell img,.ig-cell video{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease);}
-.ig-cell:hover img,.ig-cell:hover video{transform:scale(1.06);}
-.ig-cell-ov{position:absolute;inset:0;background:rgba(0,0,0,.52);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;}
-[data-theme="light"] .ig-cell-ov{background:rgba(10,6,0,.42);}
+.ig-cell:hover img,.ig-cell:hover video{transform:scale(1.08);}
+.ig-cell-ov{position:absolute;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;}
+[data-theme="light"] .ig-cell-ov{background:rgba(10,6,0,.45);}
 .ig-cell:hover .ig-cell-ov{opacity:1;}
 .ig-cell-ov span{color:#fff;font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:6px;}
 .ig-cell-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--bg3),var(--bg2));}
-.ig-cell-ph .ico{font-size:2rem;opacity:.3;}
+.ig-cell-ph .ico{font-size:2rem;opacity:.28;}
 .ig-cell-ph p{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);}
 .ig-cell-badge{position:absolute;top:8px;right:8px;font-size:1rem;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5));}
-.reel-modal{position:fixed;inset:0;z-index:4000;background:rgba(0,0,0,.92);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+/* Reel modal */
+.reel-modal{position:fixed;inset:0;z-index:4000;background:rgba(0,0,0,.93);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
 .reel-modal.open{opacity:1;pointer-events:all;}
-.reel-modal-inner{width:min(420px,92vw);position:relative;}
+.reel-modal-inner{width:min(420px,94vw);position:relative;}
 .reel-modal-inner iframe{width:100%;height:min(745px,88vh);border:none;border-radius:var(--rl);display:block;}
 .reel-modal-close{position:absolute;top:-14px;right:-14px;width:36px;height:36px;border-radius:50%;background:#fff;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:transform .2s var(--easeback);}
 .reel-modal-close:hover{transform:scale(1.12);}
 .ig-cta{margin-top:56px;padding:44px 40px;border-radius:var(--rl);text-align:center;position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(131,58,180,.08),rgba(201,147,58,.07),rgba(255,100,50,.05));border:1px solid var(--bdr);}
 [data-theme="light"] .ig-cta{background:rgba(255,255,255,.7);border-color:rgba(0,0,0,.08);}
-.ig-cta h3{font-family:var(--fs);font-size:1.8rem;font-weight:700;margin-bottom:8px;color:var(--tx);position:relative;}
-.ig-cta p{font-size:.88rem;color:var(--tx2);margin-bottom:24px;line-height:1.7;max-width:460px;margin-left:auto;margin-right:auto;position:relative;}
-@media(max-width:580px){.ig-profile{flex-direction:column;text-align:center;padding:28px 20px;}}
+.ig-cta h3{font-family:var(--fs);font-size:1.8rem;font-weight:700;margin-bottom:8px;color:var(--tx);}
+.ig-cta p{font-size:.88rem;color:var(--tx2);margin-bottom:24px;line-height:1.7;max-width:460px;margin-left:auto;margin-right:auto;}
+@media(max-width:580px){.ig-profile{flex-direction:column;text-align:center;padding:24px 20px;}.ig-grid{gap:2px;}}
 </style>
 </head>
 <body>
 <div id="nav-root"></div>
-
 <div class="ph" style="min-height:44vh;">
   <div class="ph-glow"></div><div class="ph-grid"></div>
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 20% 50%,rgba(131,58,180,.08) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 50%,rgba(201,147,58,.1) 0%,transparent 60%);pointer-events:none;"></div>
   <p class="ph-label">Follow Along</p>
-  <h1 class="ph-title" style="font-size:clamp(3.5rem,9vw,8rem);">INSTAGRAM</h1>
+  <h1 class="ph-title" style="font-size:clamp(3rem,9vw,8rem);">INSTAGRAM</h1>
   <p class="ph-sub">Behind the scenes. On the ground. In the moment.</p>
 </div>
-
-<section class="ig-section" style="position:relative;overflow:hidden;">
+<section class="ig-section">
   <div class="ig-orb ig-orb-1"></div>
   <div class="ig-orb ig-orb-2"></div>
   <div class="container" style="position:relative;z-index:1;">
@@ -67,7 +71,7 @@
         <span class="ig-handle-sub">Official Instagram</span>
         <div class="ig-handle ig-grad">@nisadya.nitt</div>
         <p class="ig-bio">The official Instagram of Nisadya — the national management fest of DoMS, NIT Tiruchirappalli. Events, highlights, BTS, and more.</p>
-        <a href="https://www.instagram.com/nisadya.nitt/" target="_blank" class="ig-follow ig-grad-bg">📷 Follow on Instagram</a>
+        <a href="https://www.instagram.com/nisadya.nitt/" target="_blank" class="ig-follow">📷 Follow on Instagram</a>
       </div>
     </div>
     <div class="ig-tabs rv">
@@ -78,18 +82,16 @@
     <div class="ig-cta rv">
       <h3>See More on Instagram</h3>
       <p>Follow <strong>@nisadya.nitt</strong> for live updates, event highlights, and behind-the-scenes moments from the national management conclave.</p>
-      <a href="https://www.instagram.com/nisadya.nitt/" target="_blank" class="ig-follow ig-grad-bg" style="display:inline-flex;">📷 Visit @nisadya.nitt</a>
+      <a href="https://www.instagram.com/nisadya.nitt/" target="_blank" class="ig-follow" style="display:inline-flex;">📷 Visit @nisadya.nitt</a>
     </div>
   </div>
 </section>
-
 <div class="reel-modal" id="reelModal" onclick="if(event.target===this)closeModal()">
-  <div class="reel-modal-inner" id="modalInner">
+  <div class="reel-modal-inner">
     <button class="reel-modal-close" onclick="closeModal()">✕</button>
     <div id="modalContent"></div>
   </div>
 </div>
-
 <div id="foot-root"></div>
 <script src="js/config.js"></script>
 <script>
@@ -101,8 +103,12 @@ function buildGrid(){
   if(currentTab==='reels'){
     grid.innerHTML=Array.from({length:total},(_,i)=>{
       const url=reels[i]||null,match=url&&url.match(/\/(reel|p)\/([A-Za-z0-9_-]+)/),code=match?match[2]:null;
-      if(code)return`<div class="ig-cell rv" style="transition-delay:${Math.min(i*.04,.35)}s" onclick="openReel('${code}')"><iframe src="https://www.instagram.com/reel/${code}/embed/" scrolling="no" allowtransparency="true" allowfullscreen="true" title="Reel ${i+1}" style="width:100%;height:100%;border:none;pointer-events:none;"></iframe><div class="ig-cell-ov"><span>▶ Play</span></div><div class="ig-cell-badge">🎬</div></div>`;
-      return`<div class="ig-cell rv" style="transition-delay:${Math.min(i*.04,.35)}s"><div class="ig-cell-ph"><span class="ico">🎬</span><p>Add reel URL in config.js</p></div></div>`;
+      if(code)return`<div class="ig-cell rv" style="transition-delay:${Math.min(i*.04,.35)}s" onclick="openReel('${code}')">
+        <iframe src="https://www.instagram.com/reel/${code}/embed/" scrolling="no" allowtransparency="true" allowfullscreen="true" title="Reel ${i+1}" style="width:100%;height:100%;border:none;pointer-events:none;"></iframe>
+        <div class="ig-cell-ov"><span>▶ Play</span></div>
+        <div class="ig-cell-badge">🎬</div></div>`;
+      return`<div class="ig-cell rv" style="transition-delay:${Math.min(i*.04,.35)}s">
+        <div class="ig-cell-ph"><span class="ico">🎬</span><p>Add reel URL</p></div></div>`;
     }).join('');
     if(!document.getElementById('ig-script')){const s=document.createElement('script');s.id='ig-script';s.src='https://www.instagram.com/embed.js';s.async=true;s.onload=()=>{if(window.instgrm)window.instgrm.Embeds.process();};document.body.appendChild(s);}
     else if(window.instgrm)window.instgrm.Embeds.process();
