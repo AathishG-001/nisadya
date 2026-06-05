@@ -147,11 +147,14 @@ section{padding:100px 0;}
 .tilt:hover .tilt-shine{opacity:1;}
 
 /* ══ REVEAL ANIMATIONS ══ */
-.rv{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease);}
-.rvl{opacity:0;transform:translateX(-40px);transition:opacity 1s var(--ease),transform 1s var(--ease);}
-.rvr{opacity:0;transform:translateX(40px);transition:opacity 1s var(--ease),transform 1s var(--ease);}
-.rv.on,.rvl.on,.rvr.on{opacity:1;transform:translate(0);}
-.d1{transition-delay:.12s;}.d2{transition-delay:.24s;}.d3{transition-delay:.36s;}.d4{transition-delay:.48s;}
+.rv{opacity:0;transform:translateY(30px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.rvl{opacity:0;transform:translateX(-30px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.rvr{opacity:0;transform:translateX(30px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.rv.on,.rvl.on,.rvr.on{opacity:1;transform:translate(0)!important;}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}
+/* Fallback: if JS fails, show everything after 3 seconds */
+@keyframes revealFallback{to{opacity:1;transform:none;}}
+.no-js .rv,.no-js .rvl,.no-js .rvr{opacity:1;transform:none;}
 
 /* ══ SCHEDULE ══ */
 .sched-section{background:var(--bg2);padding:90px 0 120px;}
