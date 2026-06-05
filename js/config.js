@@ -1,6 +1,6 @@
 /* ══ CONFIG — edit only this file each year ══ */
 const CONFIG = {
-  logos: ["1aIR3Y9QXJZ8E8eG2rquYECnUoL07Mxsz"],   // Drive File IDs: ["ID1","ID2","ID3"]
+ logos: ["1aIR3Y9QXJZ8E8eG2rquYECnUoL07Mxsz"]   // Drive File IDs: ["ID1","ID2","ID3"]
   hero: { images: [], videos: [] },
   sheets: { eventsSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4", scheduleSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4" },
   sheetTabs: { events:"Events", schedule:"Schedule" },
@@ -115,11 +115,30 @@ function initCursor(){
 
 /* ── SCROLL REVEAL ── */
 function initReveal(){
-  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}});},{threshold:.08});
+  // rootMargin: trigger 60px before element enters viewport
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('on');
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0, rootMargin:'0px 0px -40px 0px'});
   document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>obs.observe(el));
+
+  // Safety net: force-show anything still hidden after 2.5s
+  setTimeout(()=>{
+    document.querySelectorAll('.rv:not(.on),.rvl:not(.on),.rvr:not(.on)').forEach(el=>{
+      el.classList.add('on');
+    });
+  }, 2500);
 }
 function reObserve(){
-  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}});},{threshold:.06});
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}
+    });
+  },{threshold:0, rootMargin:'0px 0px -20px 0px'});
   document.querySelectorAll('.rv:not(.on),.rvl:not(.on),.rvr:not(.on)').forEach(el=>obs.observe(el));
 }
 
@@ -244,7 +263,14 @@ function renderFooter(){
 function boot(page, pageInit){
   document.getElementById('nav-root').innerHTML=renderNav(page);
   document.getElementById('foot-root').innerHTML=renderFooter();
-  initTheme(); initLogo(); initNav(); initReveal();
+  initTheme(); initLogo(); initNav();
   initCursor(); initTilt(); initMagnetic(); initCounters(); initSearch();
   if(pageInit) pageInit();
+  // initReveal LAST — after pageInit may have injected more .rv elements
+  // Use rAF to ensure DOM is painted first
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      initReveal();
+    });
+  });
 }
