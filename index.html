@@ -160,6 +160,10 @@
 @media(max-width:900px){.story-split{grid-template-columns:1fr;gap:40px;}.scene-grid{grid-template-columns:1fr 1fr;}.reveal-grid{grid-template-columns:1fr;}}
 @media(max-width:768px){.stats-row{grid-template-columns:1fr 1fr;}.preview-grid{grid-template-columns:1fr;}.scene-grid{grid-template-columns:1fr;}.hero-dots,.hscroll-track{display:none;}}
 </style>
+  <style>
+  /* REVEAL FALLBACK — guarantees content visible even if JS observer fails */
+  .rv,.rvl,.rvr{transition:opacity .8s ease,transform .8s ease;}
+  </style>
 </head>
 <body>
 <div id="nav-root"></div>
@@ -554,5 +558,14 @@ boot('index',()=>{
   initSceneCards();
 });
 </script>
+  <script>
+  window.addEventListener('load',function(){
+    setTimeout(function(){
+      document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){
+        el.classList.add('on');
+      });
+    },800);
+  });
+  </script>
 </body>
 </html>
