@@ -31,6 +31,10 @@
 .tl-venue::before{content:'◆';color:var(--gold);font-size:.4rem;}
 @media(max-width:768px){.sched-grid{grid-template-columns:1fr;}}
 </style>
+  <style>
+  /* REVEAL FALLBACK — guarantees content visible even if JS observer fails */
+  .rv,.rvl,.rvr{transition:opacity .8s ease,transform .8s ease;}
+  </style>
 </head>
 <body>
 <div id="nav-root"></div>
@@ -97,5 +101,15 @@ function initSchedParallax(){
 }
 boot('schedule',()=>{loadSchedule();initSchedParallax();});
 </script>
+  <script>
+  // Force all hidden elements visible after 1.5s as failsafe
+  window.addEventListener('load',function(){
+    setTimeout(function(){
+      document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){
+        el.classList.add('on');
+      });
+    },300);
+  });
+  </script>
 </body>
 </html>
