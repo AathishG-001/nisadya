@@ -21,6 +21,10 @@
 .ct-sub{font-size:.76rem;color:var(--tx2);line-height:1.6;}
 @media(max-width:768px){.ct-grid{grid-template-columns:1fr;}}
 </style>
+  <style>
+  /* REVEAL FALLBACK — guarantees content visible even if JS observer fails */
+  .rv,.rvl,.rvr{transition:opacity .8s ease,transform .8s ease;}
+  </style>
 </head>
 <body>
 <div id="nav-root"></div>
@@ -51,5 +55,15 @@
 <div id="foot-root"></div>
 <script src="js/config.js"></script>
 <script>boot('contact');</script>
+  <script>
+  // Force all hidden elements visible after 1.5s as failsafe
+  window.addEventListener('load',function(){
+    setTimeout(function(){
+      document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){
+        el.classList.add('on');
+      });
+    },300);
+  });
+  </script>
 </body>
 </html>
