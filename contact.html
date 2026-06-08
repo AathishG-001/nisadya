@@ -1,30 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
 <title>Contact – Nisadya</title>
 <link rel="stylesheet" href="css/style.css"/>
-<style>
-.contact-section{background:var(--bg);padding:90px 0 120px;position:relative;overflow:hidden;}
-.ct-bg-word{position:absolute;bottom:-30px;right:-20px;font-family:var(--fd);font-size:clamp(8rem,15vw,15rem);color:rgba(201,147,58,.025);line-height:1;pointer-events:none;-webkit-user-select:none;user-select:none;}
-.ct-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:56px;position:relative;z-index:1;}
-.ct-map{border-radius:var(--rl);overflow:hidden;border:1px solid var(--bdr);min-height:420px;position:relative;transition:box-shadow .4s;}
-.ct-map:hover{box-shadow:0 20px 60px rgba(0,0,0,.35);}
-.ct-map iframe{width:100%;height:100%;border:none;display:block;min-height:420px;}
-.ct-cards{display:flex;flex-direction:column;gap:14px;}
-.ct-card{padding:24px 26px;border-radius:var(--r);transition:transform .35s var(--ease),box-shadow .35s;}
-.ct-card:hover{transform:translateX(8px);box-shadow:0 10px 40px rgba(0,0,0,.2);}
-[data-theme="light"] .ct-card{background:rgba(255,255,255,.8);border:1px solid rgba(0,0,0,.08);box-shadow:0 2px 16px rgba(0,0,0,.05);}
-.ct-icon{font-size:1.2rem;margin-bottom:8px;}
-.ct-label{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
-.ct-val{font-family:var(--fs);font-size:1rem;font-weight:700;margin-bottom:2px;color:var(--tx);}
-.ct-sub{font-size:.76rem;color:var(--tx2);line-height:1.6;}
-@media(max-width:768px){.ct-grid{grid-template-columns:1fr;}}
-</style>
-  <style>
-  /* REVEAL FALLBACK — guarantees content visible even if JS observer fails */
-  .rv,.rvl,.rvr{transition:opacity .8s ease,transform .8s ease;}
-  </style>
 </head>
 <body>
 <div id="nav-root"></div>
@@ -34,7 +13,6 @@
   <p class="ph-sub">We're here. Get in touch with the Nisadya team.</p>
 </div>
 <section class="contact-section">
-  <div class="ct-bg-word">NITT</div>
   <div class="container">
     <span class="eyebrow rv">Find Us</span>
     <h2 class="sec-title rv">Contact Us</h2>
@@ -56,13 +34,13 @@
 <script src="js/config.js"></script>
 <script>boot('contact');</script>
   <script>
-  // Force all hidden elements visible after 1.5s as failsafe
-  window.addEventListener('load',function(){
+  /* ── REVEAL FAILSAFE: show all hidden elements after 1s ── */
+  window.addEventListener('load', function(){
     setTimeout(function(){
       document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){
         el.classList.add('on');
       });
-    },300);
+    }, 1000);
   });
   </script>
 </body>
