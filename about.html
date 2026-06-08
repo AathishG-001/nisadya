@@ -1,42 +1,62 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
 <title>About – Nisadya</title>
 <link rel="stylesheet" href="css/style.css"/>
 <style>
-.pull-quote{font-family:var(--fs);font-style:italic;font-size:clamp(1.5rem,3.5vw,2.6rem);font-weight:300;line-height:1.5;color:var(--tx);border-left:3px solid var(--gold);padding-left:32px;margin:60px 0;}
-.pull-quote em{font-style:normal;color:var(--gold);}
+/* ── ABOUT SPECIFIC ── */
+.about-hero-line{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.about-hero-line::before{content:'';position:absolute;top:0;left:50%;width:1px;height:100%;background:linear-gradient(to bottom,transparent,var(--gold),transparent);opacity:.3;}
+.story-pull{font-family:var(--fs);font-style:italic;font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:300;line-height:1.5;color:var(--tx);border-left:3px solid var(--gold);padding-left:32px;margin:60px 0;}
+.story-pull em{color:var(--gold);font-style:normal;}
+/* Timeline */
+.timeline{position:relative;padding:60px 0;}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--bdr),transparent);}
+.tl-row{display:grid;grid-template-columns:1fr 60px 1fr;gap:0;margin-bottom:60px;align-items:center;}
+.tl-row:nth-child(even) .tl-content-left{order:3;}
+.tl-row:nth-child(even) .tl-center{order:2;}
+.tl-row:nth-child(even) .tl-content-right{order:1;text-align:right;}
+.tl-content-left,.tl-content-right{padding:0 40px;}
+.tl-center{display:flex;justify-content:center;}
+.tl-node{width:18px;height:18px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px var(--bg),0 0 0 6px var(--gold),0 0 20px var(--glow);flex-shrink:0;}
+.tl-year{font-family:var(--fd);font-size:2rem;letter-spacing:3px;color:var(--gold);margin-bottom:6px;}
+.tl-desc{font-size:.88rem;line-height:1.8;color:var(--tx2);}
+/* Values */
 .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px;}
-.value-card{padding:40px 32px;border-radius:var(--rl);text-align:center;transition:transform .4s var(--ease),box-shadow .4s;}
-.value-card:hover{transform:translateY(-10px);box-shadow:0 30px 60px rgba(0,0,0,.3);}
+.value-card{padding:40px 32px;border-radius:var(--rl);text-align:center;transition:transform .4s var(--ease);}
+.value-card:hover{transform:translateY(-8px);}
 [data-theme="light"] .value-card{background:rgba(255,255,255,.8);border:1px solid rgba(0,0,0,.08);}
 .value-icon{font-size:2.5rem;margin-bottom:16px;}
 .value-title{font-family:var(--fs);font-size:1.2rem;font-weight:700;margin-bottom:10px;color:var(--tx);}
 .value-desc{font-size:.82rem;line-height:1.8;color:var(--tx2);}
-/* Parallax about bg */
-.about-parallax-wrap{position:relative;overflow:hidden;}
-.about-parallax-num{position:absolute;right:-40px;top:50%;transform:translateY(-50%);font-family:var(--fd);font-size:clamp(14rem,22vw,22rem);color:rgba(201,147,58,.04);line-height:1;pointer-events:none;-webkit-user-select:none;user-select:none;will-change:transform;}
-@media(max-width:768px){.values-grid{grid-template-columns:1fr;}.about-grid{grid-template-columns:1fr!important;}.about-sticky{position:static!important;}.inst-grid{grid-template-columns:1fr!important;}}
+@media(max-width:768px){
+  .timeline::before{left:20px;}
+  .tl-row{grid-template-columns:40px 1fr;gap:16px;}
+  .tl-row:nth-child(even) .tl-content-left{order:0;}
+  .tl-row:nth-child(even) .tl-content-right{order:0;text-align:left;}
+  .tl-content-left,.tl-content-right{padding:0;}
+  .values-grid{grid-template-columns:1fr;}
+  .about-grid{grid-template-columns:1fr;}
+  .about-sticky{position:static;}
+  .inst-grid{grid-template-columns:1fr;}
+}
 </style>
-  <style>
-  /* REVEAL FALLBACK — guarantees content visible even if JS observer fails */
-  .rv,.rvl,.rvr{transition:opacity .8s ease,transform .8s ease;}
-  </style>
 </head>
 <body>
 <div id="nav-root"></div>
-  
 
-<div class="ph">
-  <div class="ph-glow"></div><div class="ph-grid"></div>
+<div class="ph" style="min-height:60vh;">
+  <div class="ph-glow"></div>
+  <div class="ph-grid"></div>
+  <div class="about-hero-line"></div>
   <p class="ph-label">Our Story</p>
   <h1 class="ph-title">ABOUT</h1>
   <p class="ph-sub">Vision, legacy, and the institution behind it all.</p>
 </div>
 
-<section class="about-body about-parallax-wrap" id="aboutMain">
-  <div class="about-parallax-num" id="aboutParNum">01</div>
+<!-- WHAT IS NISADYA -->
+<section class="about-body">
   <div class="container">
     <div class="about-grid">
       <div class="about-sticky rvl">
@@ -44,7 +64,7 @@
         <h2 class="sec-title">What is Nisadya?</h2>
         <div class="sec-line"></div>
         <p>Nisadya is the annual national-level management fest organised by the Department of Management Studies, NIT Tiruchirappalli — a confluence of sharp minds, fierce competition, and transformative ideas from premier institutions across India.</p>
-        <p>From strategy simulations and finance challenges to marketing wars and consulting cases, Nisadya is where future leaders are tested. Each edition brings a fresh theme and an experience that outlasts the event.</p>
+        <p>From strategy simulations and finance challenges to marketing wars and consulting cases, Nisadya is where future leaders are tested. Each edition brings a fresh theme, new challenges, and an experience that outlasts the event.</p>
         <div class="highlights">
           <div class="hl-card glass rv"><div class="hl-n">500+</div><div class="hl-l">Participants</div></div>
           <div class="hl-card glass rv d1"><div class="hl-n">30+</div><div class="hl-l">Colleges</div></div>
@@ -65,15 +85,19 @@
           <div class="acard-label">Annual Edition</div>
           <h3>Every Year, A New Vision</h3>
           <p>Each Nisadya is anchored to a central theme reflecting the most pressing challenges in the business world — shaping every event, case study, and conversation over two days.</p>
+          <p>This annual reinvention is what keeps Nisadya fresh, relevant, and consistently ahead of the curve.</p>
         </div>
       </div>
     </div>
-    <blockquote class="pull-quote rv">
-      "It is not about who wins the case study.<br>It is about who you <em>become</em> while solving it."
+
+    <!-- Pull quote -->
+    <blockquote class="story-pull rv">
+      "It is not about who wins the case study.<br>It is about who you become while solving it." <em>— Nisadya</em>
     </blockquote>
   </div>
 </section>
 
+<!-- VALUES -->
 <section style="background:var(--bg2);padding:100px 0;">
   <div class="container">
     <span class="eyebrow rv">What We Stand For</span>
@@ -87,21 +111,25 @@
   </div>
 </section>
 
+<!-- INSTITUTE -->
 <section class="inst-section">
   <div class="container">
     <span class="eyebrow rv">Our Institution</span>
     <h2 class="sec-title rv">The Legacy Behind Nisadya</h2>
     <div class="sec-line rv"></div>
     <div class="inst-grid">
-      <div class="inst-card glass tilt rv"><div class="tilt-shine"></div>
+      <div class="inst-card glass tilt rv">
+        <div class="tilt-shine"></div>
         <div class="inst-tag">National Institute of Technology</div>
         <h3>NIT Tiruchirappalli</h3>
-        <p>Established in 1964, NIT Tiruchirappalli is consistently ranked among India's premier technical institutions. With world-class infrastructure, cutting-edge research, and a distinguished alumni network spanning every sector, NITT has shaped careers for over six decades.</p>
+        <p>Established in 1964, NIT Tiruchirappalli is consistently ranked among India's premier technical institutions. With world-class infrastructure, cutting-edge research, and a distinguished alumni network spanning every sector, NITT has shaped the careers of engineers, managers, and leaders for over six decades.</p>
       </div>
-      <div class="inst-card glass tilt rv d2"><div class="tilt-shine"></div>
+      <div class="inst-card glass tilt rv d2">
+        <div class="tilt-shine"></div>
         <div class="inst-tag">Department of Management Studies</div>
         <h3>DoMS, NIT Tiruchirappalli</h3>
-        <p>The Department of Management Studies offers a rigorous MBA programme blending analytical depth with managerial acumen. DoMS produces leaders equipped to navigate complex, ambiguous business environments. The department's clubs — Vittiya among others — foster a culture of competition that finds its highest expression in Nisadya.</p>
+        <p>The Department of Management Studies offers a rigorous MBA programme blending analytical depth with managerial acumen. Rooted in quantitative rigour and informed by industry practice, DoMS produces leaders equipped to navigate complex, ambiguous business environments.</p>
+        <p>The department's clubs — Vittiya and others — foster a culture of competition and continuous learning that finds its highest expression in Nisadya.</p>
       </div>
     </div>
   </div>
@@ -109,27 +137,15 @@
 
 <div id="foot-root"></div>
 <script src="js/config.js"></script>
-<script>
-function initAboutParallax(){
-  const num=document.getElementById('aboutParNum');
-  const sec=document.getElementById('aboutMain');
-  if(!num||!sec)return;
-  window.addEventListener('scroll',()=>{
-    const r=sec.getBoundingClientRect();
-    const prog=(window.innerHeight-r.top)/(r.height+window.innerHeight);
-    num.style.transform=`translateY(calc(-50% + ${prog*80}px))`;
-  });
-}
-boot('about',initAboutParallax);
-</script>
+<script>boot('about');</script>
   <script>
-  // Force all hidden elements visible after 1.5s as failsafe
-  window.addEventListener('load',function(){
+  /* ── REVEAL FAILSAFE: show all hidden elements after 1s ── */
+  window.addEventListener('load', function(){
     setTimeout(function(){
       document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){
         el.classList.add('on');
       });
-    },300);
+    }, 1000);
   });
   </script>
 </body>
