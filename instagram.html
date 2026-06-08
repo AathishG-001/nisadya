@@ -1,280 +1,129 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
 <title>Instagram – Nisadya</title>
 <link rel="stylesheet" href="css/style.css"/>
 <style>
-/* ── INSTAGRAM PAGE ── */
-.ig-section{background:var(--bg);padding:60px 0 100px;position:relative;overflow:hidden;}
-.ig-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(100px);z-index:0;}
-.ig-orb-1{width:400px;height:400px;top:-100px;left:-80px;animation:float 9s ease-in-out infinite;background:radial-gradient(circle,rgba(131,58,180,.07),transparent);}
-.ig-orb-2{width:320px;height:320px;bottom:-80px;right:-60px;animation:float 7s ease-in-out infinite reverse;background:radial-gradient(circle,rgba(201,147,58,.08),transparent);}
-
-/* Profile card */
-.ig-profile-card{padding:28px 32px;border-radius:var(--rl);margin-bottom:36px;display:flex;align-items:center;gap:28px;position:relative;overflow:hidden;z-index:1;transition:transform .4s var(--ease);}
-.ig-profile-card:hover{transform:translateY(-4px);}
-.ig-profile-card::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(131,58,180,.09),rgba(201,147,58,.07),rgba(255,100,50,.04));}
-[data-theme="light"] .ig-profile-card{background:rgba(255,255,255,.88);border:1px solid rgba(0,0,0,.08);box-shadow:0 4px 30px rgba(0,0,0,.08);}
-.ig-avatar-wrap{position:relative;flex-shrink:0;}
-.ig-avatar-ring{width:72px;height:72px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);}
-.ig-avatar-inner{width:100%;height:100%;border-radius:50%;background:var(--bg2);border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:1.6rem;}
-.ig-profile-info{flex:1;min-width:0;}
-.ig-handle-label{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;}
-.ig-handle{font-family:var(--fd);font-size:1.6rem;letter-spacing:3px;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;}
-.ig-bio{font-size:.8rem;color:var(--tx2);line-height:1.6;margin:8px 0 14px;}
-.ig-follow-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:40px;border:none;cursor:pointer;font-size:.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);transition:transform .3s var(--easeback),box-shadow .3s;}
-.ig-follow-btn:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 10px 36px rgba(131,58,180,.4);}
-
-/* Stats row like IG */
-.ig-stats{display:flex;gap:0;margin-bottom:20px;border-top:1px solid var(--bdr2);border-bottom:1px solid var(--bdr2);padding:0;position:relative;z-index:1;}
-.ig-stat{flex:1;text-align:center;padding:14px 8px;}
-.ig-stat-n{font-family:var(--fd);font-size:1.4rem;letter-spacing:1px;color:var(--tx);display:block;}
-.ig-stat-l{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-top:2px;display:block;}
-.ig-stat+.ig-stat{border-left:1px solid var(--bdr2);}
-
-/* Tab bar — like IG app */
-.ig-tabbar{display:flex;border-bottom:1px solid var(--bdr2);margin-bottom:2px;position:relative;z-index:1;}
-.ig-tab-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 8px;cursor:pointer;border:none;background:transparent;color:var(--tx3);font-size:.68rem;letter-spacing:2px;text-transform:uppercase;font-family:var(--fb);border-bottom:2px solid transparent;transition:color .3s,border-color .3s;margin-bottom:-1px;}
-.ig-tab-btn svg{opacity:.5;transition:opacity .3s;}
-.ig-tab-btn.active{color:var(--tx);border-bottom-color:var(--tx);}
-.ig-tab-btn.active svg{opacity:1;}
-
-/* THE GRID — exactly like Instagram app */
-.ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;position:relative;z-index:1;}
+.ig-grad{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ig-grad-bg{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);}
+.ig-profile{padding:36px 44px;border-radius:var(--rl);margin-bottom:48px;display:flex;align-items:center;gap:36px;position:relative;overflow:hidden;}
+.ig-profile::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(131,58,180,.08),rgba(201,147,58,.06),rgba(255,100,50,.04));}
+[data-theme="light"] .ig-profile{background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.08);box-shadow:0 4px 30px rgba(0,0,0,.07);}
+.ig-avatar-ring{width:76px;height:76px;border-radius:50%;padding:3px;flex-shrink:0;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);}
+.ig-avatar-inner{width:100%;height:100%;border-radius:50%;background:var(--bg2);border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:1.8rem;}
+.ig-handle{font-family:var(--fd);font-size:1.8rem;letter-spacing:3px;}
+.ig-handle-sub{font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx3);display:block;margin-bottom:10px;}
+.ig-bio{font-size:.85rem;color:var(--tx2);line-height:1.7;margin-bottom:16px;}
+.ig-follow{display:inline-flex;align-items:center;gap:8px;padding:11px 26px;border-radius:40px;border:none;cursor:pointer;font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#fff;transition:transform .3s var(--easeback),box-shadow .3s;}
+.ig-follow:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 10px 36px rgba(131,58,180,.35);}
+.ig-tabs{display:flex;border-bottom:1px solid var(--bdr2);margin-bottom:4px;}
+.ig-tab{padding:14px 24px;font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--tx3);cursor:pointer;border-bottom:2px solid transparent;transition:color .3s,border-color .3s;margin-bottom:-1px;}
+.ig-tab.active{color:var(--tx);border-bottom-color:var(--tx);}
+.ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:4px;}
 .ig-cell{position:relative;aspect-ratio:1/1;overflow:hidden;cursor:pointer;background:var(--bg3);}
 [data-theme="light"] .ig-cell{background:var(--bg2);}
-/* Thumbnail image fills the cell */
-.ig-cell-thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s var(--ease);}
-.ig-cell:hover .ig-cell-thumb{transform:scale(1.05);}
-/* Placeholder when no thumbnail */
-.ig-cell-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,var(--bg3),var(--bg2));}
-.ig-cell-ph-icon{font-size:1.6rem;opacity:.3;}
-.ig-cell-ph-txt{font-size:.55rem;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);text-align:center;padding:0 8px;}
-/* Hover overlay */
-.ig-cell-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;}
-[data-theme="light"] .ig-cell-overlay{background:rgba(10,6,0,.38);}
-.ig-cell:hover .ig-cell-overlay{opacity:1;}
-.ig-cell-play{color:#fff;font-size:1.6rem;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));}
-/* Reel badge top-right */
-.ig-cell-type{position:absolute;top:6px;right:6px;color:#fff;font-size:.85rem;filter:drop-shadow(0 1px 4px rgba(0,0,0,.6));}
-
-/* Modal — fullscreen reel viewer */
-.reel-modal{position:fixed;inset:0;z-index:5000;background:rgba(0,0,0,.95);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+.ig-cell img,.ig-cell video{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease);}
+.ig-cell:hover img,.ig-cell:hover video{transform:scale(1.06);}
+.ig-cell-ov{position:absolute;inset:0;background:rgba(0,0,0,.52);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;}
+[data-theme="light"] .ig-cell-ov{background:rgba(10,6,0,.42);}
+.ig-cell:hover .ig-cell-ov{opacity:1;}
+.ig-cell-ov span{color:#fff;font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:6px;}
+.ig-cell-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--bg3),var(--bg2));}
+.ig-cell-ph .ico{font-size:2rem;opacity:.3;}
+.ig-cell-ph p{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);}
+.ig-cell-badge{position:absolute;top:8px;right:8px;font-size:1rem;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5));}
+.reel-modal{position:fixed;inset:0;z-index:4000;background:rgba(0,0,0,.92);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
 .reel-modal.open{opacity:1;pointer-events:all;}
-.reel-modal-wrap{position:relative;width:min(400px,96vw);}
-.reel-modal-iframe{width:100%;height:min(710px,85vh);border:none;border-radius:var(--rl);display:block;}
-.reel-modal-close{position:absolute;top:-14px;right:-14px;width:36px;height:36px;border-radius:50%;background:#fff;border:none;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.5);transition:transform .25s var(--easeback);z-index:1;}
-.reel-modal-close:hover{transform:scale(1.15);}
-
-/* CTA */
-.ig-cta{margin-top:40px;padding:36px 32px;border-radius:var(--rl);text-align:center;background:linear-gradient(135deg,rgba(131,58,180,.08),rgba(201,147,58,.07),rgba(255,100,50,.05));border:1px solid var(--bdr);position:relative;z-index:1;}
+.reel-modal-inner{width:min(420px,92vw);position:relative;}
+.reel-modal-inner iframe{width:100%;height:min(745px,88vh);border:none;border-radius:var(--rl);display:block;}
+.reel-modal-close{position:absolute;top:-14px;right:-14px;width:36px;height:36px;border-radius:50%;background:#fff;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:transform .2s var(--easeback);}
+.reel-modal-close:hover{transform:scale(1.12);}
+.ig-cta{margin-top:56px;padding:44px 40px;border-radius:var(--rl);text-align:center;position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(131,58,180,.08),rgba(201,147,58,.07),rgba(255,100,50,.05));border:1px solid var(--bdr);}
 [data-theme="light"] .ig-cta{background:rgba(255,255,255,.7);border-color:rgba(0,0,0,.08);}
-.ig-cta h3{font-family:var(--fs);font-size:1.6rem;font-weight:700;margin-bottom:8px;color:var(--tx);}
-.ig-cta p{font-size:.85rem;color:var(--tx2);margin-bottom:20px;line-height:1.7;max-width:420px;margin-left:auto;margin-right:auto;}
-
-/* Mobile tweaks */
-@media(max-width:600px){
-  .ig-profile-card{flex-direction:column;text-align:center;padding:24px 20px;gap:16px;}
-  .ig-profile-card .ig-profile-info{width:100%;}
-  .ig-grid{gap:1px;}
-  .ig-handle{font-size:1.3rem;}
-}
+.ig-cta h3{font-family:var(--fs);font-size:1.8rem;font-weight:700;margin-bottom:8px;color:var(--tx);position:relative;}
+.ig-cta p{font-size:.88rem;color:var(--tx2);margin-bottom:24px;line-height:1.7;max-width:460px;margin-left:auto;margin-right:auto;position:relative;}
+@media(max-width:580px){.ig-profile{flex-direction:column;text-align:center;padding:28px 20px;}}
 </style>
-  <style>
-  /* REVEAL FALLBACK — guarantees content visible even if JS observer fails */
-  .rv,.rvl,.rvr{transition:opacity .8s ease,transform .8s ease;}
-  </style>
 </head>
 <body>
 <div id="nav-root"></div>
 
-<!-- PAGE HERO -->
-<div class="ph" style="min-height:38vh;">
-  <div class="ph-glow"></div>
-  <div class="ph-grid"></div>
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 20% 50%,rgba(131,58,180,.08),transparent 60%),radial-gradient(ellipse 60% 50% at 80% 50%,rgba(201,147,58,.1),transparent 60%);pointer-events:none;"></div>
+<div class="ph" style="min-height:44vh;">
+  <div class="ph-glow"></div><div class="ph-grid"></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 20% 50%,rgba(131,58,180,.08) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 50%,rgba(201,147,58,.1) 0%,transparent 60%);pointer-events:none;"></div>
   <p class="ph-label">Follow Along</p>
-  <h1 class="ph-title" style="font-size:clamp(3rem,9vw,8rem);">INSTAGRAM</h1>
+  <h1 class="ph-title" style="font-size:clamp(3.5rem,9vw,8rem);">INSTAGRAM</h1>
   <p class="ph-sub">Behind the scenes. On the ground. In the moment.</p>
 </div>
 
-<section class="ig-section">
+<section class="ig-section" style="position:relative;overflow:hidden;">
   <div class="ig-orb ig-orb-1"></div>
   <div class="ig-orb ig-orb-2"></div>
-  <div class="container">
-
-    <!-- Profile Card -->
-    <div class="ig-profile-card glass rv">
-      <div class="ig-avatar-wrap">
-        <div class="ig-avatar-ring">
-          <div class="ig-avatar-inner">📸</div>
-        </div>
-      </div>
-      <div class="ig-profile-info">
-        <div class="ig-handle-label">Official Instagram</div>
-        <div class="ig-handle">@nisadya.nitt</div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="ig-profile glass rv">
+      <div class="ig-avatar-ring"><div class="ig-avatar-inner">📸</div></div>
+      <div>
+        <span class="ig-handle-sub">Official Instagram</span>
+        <div class="ig-handle ig-grad">@nisadya.nitt</div>
         <p class="ig-bio">The official Instagram of Nisadya — the national management fest of DoMS, NIT Tiruchirappalli. Events, highlights, BTS, and more.</p>
-        <a href="https://www.instagram.com/nisadya.nitt/" target="_blank" class="ig-follow-btn">
-          📷 Follow on Instagram
-        </a>
+        <a href="https://www.instagram.com/nisadya.nitt/" target="_blank" class="ig-follow ig-grad-bg">📷 Follow on Instagram</a>
       </div>
     </div>
-
-    <!-- Stats bar -->
-    <div class="ig-stats rv">
-      <div class="ig-stat">
-        <span class="ig-stat-n" id="igPostCount">—</span>
-        <span class="ig-stat-l">Posts</span>
-      </div>
-      <div class="ig-stat">
-        <span class="ig-stat-n" id="igReelCount">—</span>
-        <span class="ig-stat-l">Reels</span>
-      </div>
-      <div class="ig-stat">
-        <span class="ig-stat-n">DoMS</span>
-        <span class="ig-stat-l">NITT</span>
-      </div>
+    <div class="ig-tabs rv">
+      <div class="ig-tab active" onclick="setTab('reels',this)">🎬 Reels</div>
+      <div class="ig-tab" onclick="setTab('posts',this)">⬛ Posts</div>
     </div>
-
-    <!-- Tab bar — Reels only (Posts tab removed per requirement) -->
-    <div class="ig-tabbar rv">
-      <button class="ig-tab-btn active">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
-        Reels
-      </button>
-    </div>
-
-    <!-- Grid — exactly like IG app -->
-    <div class="ig-grid" id="igGrid">
-      <!-- Injected by JS -->
-    </div>
-
-    <!-- CTA -->
+    <div class="ig-grid rv" id="igGrid"></div>
     <div class="ig-cta rv">
       <h3>See More on Instagram</h3>
       <p>Follow <strong>@nisadya.nitt</strong> for live updates, event highlights, and behind-the-scenes moments from the national management conclave.</p>
-      <a href="https://www.instagram.com/nisadya.nitt/" target="_blank" class="ig-follow-btn" style="display:inline-flex;">
-        📷 Visit @nisadya.nitt
-      </a>
+      <a href="https://www.instagram.com/nisadya.nitt/" target="_blank" class="ig-follow ig-grad-bg" style="display:inline-flex;">📷 Visit @nisadya.nitt</a>
     </div>
-
   </div>
 </section>
 
-<!-- Reel Modal -->
-<div class="reel-modal" id="reelModal">
-  <div class="reel-modal-wrap">
-    <button class="reel-modal-close" id="modalClose">✕</button>
-    <iframe class="reel-modal-iframe" id="modalFrame" src="" scrolling="no" allowtransparency="true" allowfullscreen="true" title="Instagram Reel"></iframe>
+<div class="reel-modal" id="reelModal" onclick="if(event.target===this)closeModal()">
+  <div class="reel-modal-inner" id="modalInner">
+    <button class="reel-modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
   </div>
 </div>
 
 <div id="foot-root"></div>
 <script src="js/config.js"></script>
 <script>
-/*
-  HOW TO ADD REELS in config.js:
-  instagramReels: [
-    "https://www.instagram.com/reel/REEL_ID/",
-    "https://www.instagram.com/reel/ANOTHER_ID/",
-  ]
-  Go to any reel on Instagram → 3-dot menu → Copy Link → paste here.
-  The grid will show actual thumbnails once reel URLs are added.
-*/
-
-const PLACEHOLDER_COUNT = 12; // How many placeholder cells to show when no reels added
-
-function getReelCode(url) {
-  const m = url && url.match(/\/(reel|p)\/([A-Za-z0-9_-]+)/);
-  return m ? m[2] : null;
-}
-
-function reelThumbUrl(code) {
-  // Instagram oEmbed thumbnail — works without login for public reels
-  return `https://www.instagram.com/p/${code}/media/?size=m`;
-}
-
-function buildGrid() {
-  const reels = (CONFIG.instagramReels || []).filter(Boolean);
-  const grid = document.getElementById('igGrid');
-
-  // Update counts
-  document.getElementById('igReelCount').textContent = reels.length || '—';
-  document.getElementById('igPostCount').textContent = reels.length ? reels.length : '—';
-
-  const count = Math.max(reels.length, PLACEHOLDER_COUNT);
-
-  grid.innerHTML = Array.from({length: count}, (_, i) => {
-    const url = reels[i] || null;
-    const code = getReelCode(url);
-
-    if (code) {
-      return `
-        <div class="ig-cell rv" style="transition-delay:${Math.min(i * .04, .4)}s"
-             onclick="openReel('${code}')">
-          <img class="ig-cell-thumb"
-               src="${reelThumbUrl(code)}"
-               alt="Reel ${i+1}"
-               loading="lazy"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-          <div class="ig-cell-ph" style="display:none;">
-            <span class="ig-cell-ph-icon">🎬</span>
-            <span class="ig-cell-ph-txt">Reel ${i+1}</span>
-          </div>
-          <div class="ig-cell-overlay">
-            <span class="ig-cell-play">▶</span>
-          </div>
-          <span class="ig-cell-type">🎬</span>
-        </div>`;
-    }
-
-    // Placeholder cell
-    return `
-      <div class="ig-cell rv" style="transition-delay:${Math.min(i * .04, .4)}s">
-        <div class="ig-cell-ph">
-          <span class="ig-cell-ph-icon">🎬</span>
-          <span class="ig-cell-ph-txt">Add reel URL in config.js</span>
-        </div>
-      </div>`;
-  }).join('');
-
+let currentTab='reels';
+function setTab(tab,el){currentTab=tab;document.querySelectorAll('.ig-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');buildGrid();}
+function buildGrid(){
+  const reels=(CONFIG.instagramReels||[]).filter(Boolean),grid=document.getElementById('igGrid');
+  const total=Math.max(reels.length,9);
+  if(currentTab==='reels'){
+    grid.innerHTML=Array.from({length:total},(_,i)=>{
+      const url=reels[i]||null,match=url&&url.match(/\/(reel|p)\/([A-Za-z0-9_-]+)/),code=match?match[2]:null;
+      if(code)return`<div class="ig-cell rv" style="transition-delay:${Math.min(i*.04,.35)}s" onclick="openReel('${code}')"><iframe src="https://www.instagram.com/reel/${code}/embed/" scrolling="no" allowtransparency="true" allowfullscreen="true" title="Reel ${i+1}" style="width:100%;height:100%;border:none;pointer-events:none;"></iframe><div class="ig-cell-ov"><span>▶ Play</span></div><div class="ig-cell-badge">🎬</div></div>`;
+      return`<div class="ig-cell rv" style="transition-delay:${Math.min(i*.04,.35)}s"><div class="ig-cell-ph"><span class="ico">🎬</span><p>Add reel URL in config.js</p></div></div>`;
+    }).join('');
+    if(!document.getElementById('ig-script')){const s=document.createElement('script');s.id='ig-script';s.src='https://www.instagram.com/embed.js';s.async=true;s.onload=()=>{if(window.instgrm)window.instgrm.Embeds.process();};document.body.appendChild(s);}
+    else if(window.instgrm)window.instgrm.Embeds.process();
+  }else{
+    grid.innerHTML=Array.from({length:9},(_,i)=>`<div class="ig-cell rv" style="transition-delay:${Math.min(i*.04,.35)}s"><div class="ig-cell-ph"><span class="ico">📷</span><p>Post ${i+1}</p></div></div>`).join('');
+  }
   reObserve();
 }
-
-function openReel(code) {
-  const modal = document.getElementById('reelModal');
-  const frame = document.getElementById('modalFrame');
-  frame.src = `https://www.instagram.com/reel/${code}/embed/`;
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-  const modal = document.getElementById('reelModal');
-  const frame = document.getElementById('modalFrame');
-  modal.classList.remove('open');
-  frame.src = ''; // stop video
-  document.body.style.overflow = '';
-}
-
-// Event listeners
-document.getElementById('modalClose').addEventListener('click', closeModal);
-document.getElementById('reelModal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-boot('instagram', buildGrid);
+function openReel(code){document.getElementById('modalContent').innerHTML=`<iframe src="https://www.instagram.com/reel/${code}/embed/" scrolling="no" allowtransparency="true" allowfullscreen="true" title="Instagram Reel"></iframe>`;document.getElementById('reelModal').classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(){document.getElementById('reelModal').classList.remove('open');document.getElementById('modalContent').innerHTML='';document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+boot('instagram',buildGrid);
 </script>
   <script>
-  // Force all hidden elements visible after 1.5s as failsafe
-  window.addEventListener('load',function(){
+  /* ── REVEAL FAILSAFE: show all hidden elements after 1s ── */
+  window.addEventListener('load', function(){
     setTimeout(function(){
       document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){
         el.classList.add('on');
       });
-    },300);
+    }, 1000);
   });
   </script>
 </body>
