@@ -1,40 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
 <title>Schedule – Nisadya</title>
 <link rel="stylesheet" href="css/style.css"/>
-<style>
-.sched-section{background:var(--bg2);padding:90px 0 120px;position:relative;overflow:hidden;}
-.sched-parallax-word{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--fd);font-size:clamp(10rem,20vw,20rem);color:rgba(201,147,58,.025);white-space:nowrap;pointer-events:none;-webkit-user-select:none;user-select:none;will-change:transform;}
-.sched-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:56px;position:relative;z-index:1;}
-.sched-card{border-radius:var(--rl);overflow:hidden;transition:transform .4s var(--ease),box-shadow .4s;}
-.sched-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.3);}
-[data-theme="light"] .sched-card{background:rgba(255,255,255,.78);border:1px solid rgba(0,0,0,.07);box-shadow:0 4px 24px rgba(0,0,0,.06);}
-.sched-header{padding:28px 32px;background:linear-gradient(135deg,rgba(201,147,58,.12) 0%,rgba(201,147,58,.03) 100%);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;}
-[data-theme="light"] .sched-header{border-bottom-color:rgba(0,0,0,.07);}
-.sched-label h3{font-family:var(--fd);font-size:.95rem;letter-spacing:5px;color:var(--gold);}
-.sched-label span{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-top:4px;display:block;}
-.sched-num{font-family:var(--fd);font-size:5rem;line-height:1;letter-spacing:-3px;color:rgba(201,147,58,.12);-webkit-user-select:none;user-select:none;}
-[data-theme="light"] .sched-num{color:rgba(140,90,15,.14);}
-.tl-list{padding:8px 0 16px;}
-.tl-item{display:flex;position:relative;padding:0 28px 0 22px;transition:background .3s;}
-.tl-item:hover{background:rgba(201,147,58,.04);}
-.tl-item:not(:last-child)::after{content:'';position:absolute;left:31px;top:28px;bottom:-8px;width:1px;background:var(--bdr2);}
-.tl-dot-col{display:flex;flex-direction:column;align-items:center;padding-top:18px;margin-right:16px;flex-shrink:0;}
-.tl-dot{width:9px;height:9px;border-radius:50%;background:var(--gold);flex-shrink:0;box-shadow:0 0 10px var(--glow);position:relative;z-index:1;transition:transform .3s var(--easeback);}
-.tl-item:hover .tl-dot{transform:scale(1.4);}
-.tl-body{padding:13px 0 18px;flex:1;min-width:0;}
-.tl-time{font-size:.66rem;font-weight:600;letter-spacing:1.5px;color:var(--gold);margin-bottom:3px;text-transform:uppercase;}
-.tl-event{font-family:var(--fs);font-size:1rem;font-weight:700;line-height:1.3;margin-bottom:3px;color:var(--tx);}
-.tl-venue{font-size:.68rem;color:var(--tx2);display:flex;align-items:center;gap:4px;}
-.tl-venue::before{content:'◆';color:var(--gold);font-size:.4rem;}
-@media(max-width:768px){.sched-grid{grid-template-columns:1fr;}}
-</style>
-  <style>
-  /* REVEAL FALLBACK — guarantees content visible even if JS observer fails */
-  .rv,.rvl,.rvr{transition:opacity .8s ease,transform .8s ease;}
-  </style>
 </head>
 <body>
 <div id="nav-root"></div>
@@ -43,8 +12,7 @@
   <h1 class="ph-title">SCHEDULE</h1>
   <p class="ph-sub">Two days. Every moment mapped.</p>
 </div>
-<section class="sched-section" id="schedSection">
-  <div class="sched-parallax-word" id="schedWord">SCHEDULE</div>
+<section class="sched-section">
   <div class="container">
     <span class="eyebrow rv">Timeline</span>
     <h2 class="sec-title rv">Event Schedule</h2>
@@ -89,26 +57,16 @@ async function loadSchedule(){
     ['day1','day2'].forEach(id=>{document.getElementById(id).innerHTML='<div style="padding:36px 28px;color:var(--tx3);font-size:.82rem;">Failed to load. Check Sheet ID.</div>';});
   }
 }
-function initSchedParallax(){
-  const word=document.getElementById('schedWord');
-  const sec=document.getElementById('schedSection');
-  if(!word||!sec)return;
-  window.addEventListener('scroll',()=>{
-    const r=sec.getBoundingClientRect();
-    const prog=(window.innerHeight-r.top)/(r.height+window.innerHeight);
-    word.style.transform=`translate(-50%,-50%) translateX(${prog*-100}px)`;
-  });
-}
-boot('schedule',()=>{loadSchedule();initSchedParallax();});
+boot('schedule',loadSchedule);
 </script>
   <script>
-  // Force all hidden elements visible after 1.5s as failsafe
-  window.addEventListener('load',function(){
+  /* ── REVEAL FAILSAFE: show all hidden elements after 1s ── */
+  window.addEventListener('load', function(){
     setTimeout(function(){
       document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){
         el.classList.add('on');
       });
-    },300);
+    }, 1000);
   });
   </script>
 </body>
