@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
 <title>Event – Nisadya</title>
 <link rel="stylesheet" href="css/style.css"/>
 <style>
+.det-section{background:var(--bg);padding:120px 0 100px;}
 .switcher-bar{position:sticky;top:73px;z-index:100;background:var(--navbg);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr2);padding:13px 0;}
 .switcher-inner{max-width:1200px;margin:0 auto;padding:0 56px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
 .breadcrumb{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);}
-.breadcrumb a{color:var(--gold);transition:opacity .2s;}.breadcrumb a:hover{opacity:.7;}
+.breadcrumb a{color:var(--gold);}
 .ev-sel-wrap{display:flex;align-items:center;gap:12px;}
 .ev-sel-wrap label{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);white-space:nowrap;}
 .ev-sel{background:var(--surf);border:1px solid var(--bdr2);border-radius:var(--r);color:var(--tx);font-family:var(--fb);font-size:.82rem;padding:9px 14px;cursor:pointer;min-width:200px;outline:none;transition:border-color .25s;}
 .ev-sel:focus{border-color:var(--gold);}
 .ev-sel option{background:var(--bg);}
-.det-section{background:var(--bg);padding:80px 0 100px;min-height:80vh;}
 .det-layout{display:grid;grid-template-columns:1fr 360px;gap:52px;align-items:start;margin-top:52px;}
 .det-sidebar{position:sticky;top:145px;}
 .back-link{display:inline-flex;align-items:center;gap:8px;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:44px;transition:color .25s;}
-.back-link:hover{color:var(--gold);}.back-link::before{content:'←';font-size:1rem;}
-.det-name{font-family:var(--fs);font-size:clamp(2rem,4vw,3.4rem);font-weight:900;line-height:1.1;margin-bottom:8px;color:var(--tx);}
+.back-link:hover{color:var(--gold);}
+.back-link::before{content:'←';font-size:1rem;}
+.det-name{font-family:var(--fs);font-size:clamp(2.2rem,4vw,3.4rem);font-weight:900;line-height:1.1;margin-bottom:8px;color:var(--tx);}
 .det-date{font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:40px;}
 .det-block{margin-bottom:44px;}
 .det-block-label{font-size:.62rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);padding-bottom:12px;border-bottom:1px solid var(--bdr2);margin-bottom:16px;}
@@ -30,18 +31,15 @@
 .sdb-card{padding:26px 28px;border-radius:var(--r);margin-bottom:16px;}
 [data-theme="light"] .sdb-card{background:rgba(255,255,255,.8);border:1px solid rgba(0,0,0,.08);}
 .sdb-label{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
-.sdb-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}.sdb-row:last-child{margin-bottom:0;}
+.sdb-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}
+.sdb-row:last-child{margin-bottom:0;}
 .sdb-icon{width:34px;height:34px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;}
 .sdb-dl{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:3px;}
 .sdb-dv{font-size:.88rem;font-weight:500;color:var(--tx);}
-.reg-btn{display:block;width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-lt));color:#0a0800;font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:16px;border-radius:40px;border:none;cursor:pointer;text-align:center;transition:transform .3s var(--easeback),box-shadow .3s;}
+.reg-btn{display:block;width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-lt));color:#0a0800;font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:16px;border-radius:40px;border:none;cursor:pointer;text-align:center;transition:transform .3s,box-shadow .3s;}
 .reg-btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 14px 44px var(--glow);}
 @media(max-width:960px){.det-layout{grid-template-columns:1fr;}.det-sidebar{position:static;}.switcher-inner{padding:0 20px;}}
 </style>
-  <style>
-  /* REVEAL FALLBACK — guarantees content visible even if JS observer fails */
-  .rv,.rvl,.rvr{transition:opacity .8s ease,transform .8s ease;}
-  </style>
 </head>
 <body>
 <div id="nav-root"></div>
@@ -81,8 +79,7 @@ function renderDet(i){
       ${ev.rules.length?`<div class="det-block rv"><div class="det-block-label">Rules & Guidelines</div><ul class="rules-list">${ev.rules.map((r,j)=>`<li><span class="rule-num">${String(j+1).padStart(2,'0')}</span><span>${r}</span></li>`).join('')}</ul></div>`:''}
     </div>
     <div class="det-sidebar">
-      <div class="sdb-card glass rv">
-        <div class="sdb-label">Event Incharge</div>
+      <div class="sdb-card glass rv"><div class="sdb-label">Event Incharge</div>
         <div class="sdb-row"><div class="sdb-icon">👤</div><div><div class="sdb-dl">Name</div><div class="sdb-dv">${ev.incharge||'—'}</div></div></div>
         <div class="sdb-row"><div class="sdb-icon">📞</div><div><div class="sdb-dl">Contact</div><div class="sdb-dv">${ev.contact||'—'}</div></div></div>
       </div>
@@ -106,13 +103,13 @@ async function init(){
 boot('events',init);
 </script>
   <script>
-  // Force all hidden elements visible after 1.5s as failsafe
-  window.addEventListener('load',function(){
+  /* ── REVEAL FAILSAFE: show all hidden elements after 1s ── */
+  window.addEventListener('load', function(){
     setTimeout(function(){
       document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){
         el.classList.add('on');
       });
-    },300);
+    }, 1000);
   });
   </script>
 </body>
