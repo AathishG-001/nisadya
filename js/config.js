@@ -1,52 +1,18 @@
-/* ══ CONFIG — edit only this file each year ══ */
+/* ══ CONFIG — only file you edit each year ══ */
 const CONFIG = {
- logos: ["1aIR3Y9QXJZ8E8eG2rquYECnUoL07Mxsz"]   // Drive File IDs: ["ID1","ID2","ID3"]
+  logos: [1aIR3Y9QXJZ8E8eG2rquYECnUoL07Mxsz],  // Drive File IDs: ["ID1","ID2","ID3"]
   hero: { images: [], videos: [] },
   sheets: { eventsSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4", scheduleSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4" },
   sheetTabs: { events:"Events", schedule:"Schedule" },
-  /*
-    INSTAGRAM REELS
-    ───────────────
-    How to add reels:
-    1. Open https://www.instagram.com/nisadya.nitt/
-    2. Tap any reel → 3-dot menu (⋮) → Copy Link
-    3. Paste the URL below inside the array
-
-    Each URL looks like:
-    "https://www.instagram.com/reel/ABC123DEF456/"
-
-    The grid will show the reel thumbnail automatically.
-    Clicking opens the reel in a fullscreen player.
-  */
   instagramReels: ["https://www.instagram.com/nisadya.nitt/p/DXKZIzQjGpC/","https://www.instagram.com/nisadya.nitt/reel/DVSzDPVCVu6/","https://www.instagram.com/nisadya.nitt/reel/DVOW9jNCcfw/"."https://www.instagram.com/nisadya.nitt/reel/DU8qMLWAThw/","https://www.instagram.com/nisadya.nitt/reel/DUd6d8kE7nd/"
-    // "https://www.instagram.com/reel/REEL_ID_1/",
-    // "https://www.instagram.com/reel/REEL_ID_2/",
-    // "https://www.instagram.com/reel/REEL_ID_3/",
-    // "https://www.instagram.com/reel/REEL_ID_4/",
-    // "https://www.instagram.com/reel/REEL_ID_5/",
-    // "https://www.instagram.com/reel/REEL_ID_6/",
-    // "https://www.instagram.com/reel/REEL_ID_7/",
-    // "https://www.instagram.com/reel/REEL_ID_8/",
-    // "https://www.instagram.com/reel/REEL_ID_9/",
+    // "https://www.instagram.com/reel/REEL_ID/",
   ]
 };
 
-/*
-  SHEETS GUIDE
-  Tab "Events" columns A–H:
-  A=Event Name  B=Thumbnail Drive ID  C=Date  D=Details
-  E=Rules (pipe|separated)  F=Incharge Name  G=Contact  H=Unstop URL
-
-  Tab "Schedule" columns A–D:
-  A=Day(1 or 2)  B=Time  C=Event Name  D=Venue
-
-  Publish: File › Share › Publish to web › CSV › Publish
-*/
-
+/* ── HELPERS ── */
 const driveImg = id=>`https://drive.google.com/thumbnail?id=${id}&sz=w800`;
 const driveVid = id=>`https://drive.google.com/uc?export=download&id=${id}`;
 const sheetUrl = (sid,tab)=>`https://docs.google.com/spreadsheets/d/${sid}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`;
-
 function parseCSV(txt){
   const rows=[];
   txt.trim().split('\n').forEach((line,i)=>{
@@ -59,12 +25,41 @@ function parseCSV(txt){
 }
 function mapEvent(r){return{name:r[0]||'',thumb:r[1]||'',date:r[2]||'',details:r[3]||'',rules:(r[4]||'').split('|').map(s=>s.trim()).filter(Boolean),incharge:r[5]||'',contact:r[6]||'',unstop:r[7]||'#'};}
 
+/* ── PAGE TRANSITION — CSS only, no overlay div ── */
+function initPageTransition(){
+  // Remove any leftover overlay from old versions
+  document.querySelectorAll('.page-transition').forEach(el => el.remove());
+
+  // Intercept internal links — fade body out, then navigate
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a[href]');
+    if(!a) return;
+    const href = a.getAttribute('href');
+    if(!href || href.startsWith('#') || href.startsWith('http') ||
+       href.startsWith('mailto') || href.startsWith('javascript') || href.startsWith('tel')) return;
+    e.preventDefault();
+    document.body.style.transition = 'opacity 0.35s ease';
+    document.body.style.opacity = '0';
+    setTimeout(function(){ location.href = href; }, 360);
+  });
+
+  // Fade in on arrival
+  document.body.style.opacity = '0';
+  document.body.style.transition = 'none';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      document.body.style.transition = 'opacity 0.5s ease';
+      document.body.style.opacity = '1';
+    });
+  });
+}
+
 /* ── LOGO ── */
 function initLogo(){
   const logos=(CONFIG.logos||[]).filter(Boolean);
   document.querySelectorAll('.logo-area').forEach(el=>{
     el.innerHTML=logos.length
-      ?logos.map(id=>`<img src="${driveImg(id)}" class="logo-img" alt="Logo" onerror="this.style.display='none'"/>`).join('')
+      ?logos.map(id=>`<img src="${driveImg(id)}" class="logo-img" alt="Logo"/>`).join('')
       :'<span class="wordmark">NISADYA</span>';
   });
 }
@@ -82,13 +77,13 @@ function toggleTheme(){
 }
 function _syncTheme(t){document.querySelectorAll('.theme-btn').forEach(b=>{b.textContent=t==='dark'?'☀️':'🌙';});}
 
-/* ── SCROLL PROGRESS + NAV SHRINK ── */
+/* ── NAV ── */
 function initNav(){
-  const bar=document.querySelector('.scroll-bar');
   window.addEventListener('scroll',()=>{
-    const pct=(scrollY/(document.body.scrollHeight-innerHeight))*100;
-    if(bar)bar.style.width=pct+'%';
     document.getElementById('navbar')?.classList.toggle('scrolled',scrollY>50);
+    // scroll progress
+    const bar=document.querySelector('.scroll-progress-bar');
+    if(bar){const pct=(scrollY/(document.body.scrollHeight-innerHeight))*100;bar.style.width=pct+'%';}
   });
   const page=location.pathname.split('/').pop()||'index.html';
   document.querySelectorAll('.nav-links a').forEach(a=>{if(a.getAttribute('href')===page)a.classList.add('active');});
@@ -108,38 +103,36 @@ function initCursor(){
     mx=e.clientX;my=e.clientY;
     if(!started){started=true;dot.classList.add('on');ring.classList.add('on');}
   });
-  document.addEventListener('mouseover',e=>{if(e.target.closest('a,button,.tilt,.event-card,.btn,.ig-cell,.scene-card'))ring.classList.add('h');});
-  document.addEventListener('mouseout',e=>{if(e.target.closest('a,button,.tilt,.event-card,.btn,.ig-cell,.scene-card'))ring.classList.remove('h');});
+  document.addEventListener('mouseover',e=>{if(e.target.closest('a,button,.tilt,.event-card,.btn,.ig-cell'))ring.classList.add('h');});
+  document.addEventListener('mouseout',e=>{if(e.target.closest('a,button,.tilt,.event-card,.btn,.ig-cell'))ring.classList.remove('h');});
   (function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;dot.style.left=mx+'px';dot.style.top=my+'px';ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
 }
 
-/* ── SCROLL REVEAL ── */
+/* ── REVEAL ── */
 function initReveal(){
-  // rootMargin: trigger 60px before element enters viewport
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        e.target.classList.add('on');
-        obs.unobserve(e.target);
-      }
-    });
-  },{threshold:0, rootMargin:'0px 0px -40px 0px'});
-  document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>obs.observe(el));
-
-  // Safety net: force-show anything still hidden after 2.5s
-  setTimeout(()=>{
-    document.querySelectorAll('.rv:not(.on),.rvl:not(.on),.rvr:not(.on)').forEach(el=>{
-      el.classList.add('on');
-    });
-  }, 2500);
-}
-function reObserve(){
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
+  const obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
       if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}
     });
-  },{threshold:0, rootMargin:'0px 0px -20px 0px'});
-  document.querySelectorAll('.rv:not(.on),.rvl:not(.on),.rvr:not(.on)').forEach(el=>obs.observe(el));
+  },{threshold:0,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){obs.observe(el);});
+  // Safety net: force-show all hidden elements after 1.5s
+  setTimeout(function(){
+    document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){
+      el.classList.add('on');
+    });
+  },1500);
+}
+function reObserve(){
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}
+    });
+  },{threshold:0,rootMargin:'0px 0px -20px 0px'});
+  document.querySelectorAll('.rv:not(.on),.rvl:not(.on),.rvr:not(.on)').forEach(function(el){obs.observe(el);});
+  setTimeout(function(){
+    document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){el.classList.add('on');});
+  },1500);
 }
 
 /* ── 3D TILT ── */
@@ -147,37 +140,56 @@ function initTilt(){
   document.querySelectorAll('.tilt').forEach(card=>{
     card.addEventListener('mousemove',e=>{
       const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
-      card.style.transform=`perspective(900px) rotateY(${x*16}deg) rotateX(${-y*12}deg) scale3d(1.04,1.04,1.04)`;
+      card.style.transform=`perspective(900px) rotateY(${x*14}deg) rotateX(${-y*14}deg) scale3d(1.03,1.03,1.03)`;
       const s=card.querySelector('.tilt-shine');
       if(s){s.style.setProperty('--mx',`${(x+.5)*100}%`);s.style.setProperty('--my',`${(y+.5)*100}%`);}
     });
-    card.addEventListener('mouseleave',()=>{card.style.transform='perspective(900px) rotateY(0) rotateX(0) scale3d(1,1,1)';card.style.transition='transform .8s var(--ease)';});
-    card.addEventListener('mouseenter',()=>{card.style.transition='transform .1s';});
+    card.addEventListener('mouseleave',()=>{card.style.transform='perspective(900px) rotateY(0) rotateX(0) scale3d(1,1,1)';});
   });
 }
 
-/* ── MAGNETIC BUTTONS ── */
+/* ── MAGNETIC ── */
 function initMagnetic(){
   document.querySelectorAll('.mag').forEach(btn=>{
-    btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.4}px,${(e.clientY-r.top-r.height/2)*.4}px)`;});
+    btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.35}px,${(e.clientY-r.top-r.height/2)*.35}px)`;});
     btn.addEventListener('mouseleave',()=>{btn.style.transform='';});
   });
 }
 
-/* ── COUNTER ANIMATION ── */
-function initCounters(){
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting&&!e.target.dataset.done){
-        e.target.dataset.done='1';
-        const t=parseInt(e.target.dataset.count)||0,s=e.target.dataset.suffix||'';
-        let st=null;
-        const step=ts=>{if(!st)st=ts;const p=Math.min((ts-st)/1800,1);e.target.textContent=Math.floor(p*t)+(p===1?s:'');if(p<1)requestAnimationFrame(step);};
-        requestAnimationFrame(step);
-      }
+/* ── PARALLAX ── */
+function initParallax(){
+  const els=document.querySelectorAll('[data-parallax]');
+  if(!els.length)return;
+  window.addEventListener('scroll',()=>{els.forEach(el=>{el.style.transform=`translateY(${scrollY*(parseFloat(el.dataset.parallax)||.3)}px)`;});});
+}
+
+/* ── HORIZONTAL SCROLL TEXT ── */
+function initScrollText(){
+  const els=document.querySelectorAll('.scroll-text');
+  if(!els.length)return;
+  window.addEventListener('scroll',()=>{
+    els.forEach(el=>{
+      const rect=el.closest('section')?.getBoundingClientRect();
+      if(!rect)return;
+      const prog=1-(rect.bottom/(innerHeight+rect.height));
+      el.style.transform=`translateX(${prog*-200}px)`;
     });
-  },{threshold:.6});
-  document.querySelectorAll('[data-count]').forEach(el=>obs.observe(el));
+  });
+}
+
+/* ── COUNTER ANIMATION ── */
+function animateCounters(){
+  document.querySelectorAll('.counter').forEach(el=>{
+    const target=parseFloat(el.dataset.target);const suffix=el.dataset.suffix||'';
+    let start=0;const dur=1800;const step=timestamp=>{
+      if(!start)start=timestamp;
+      const prog=Math.min((timestamp-start)/dur,1);
+      const val=Math.floor(prog*target);
+      el.textContent=val+(prog===1?suffix:'');
+      if(prog<1)requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  });
 }
 
 /* ── SEARCH ── */
@@ -210,10 +222,10 @@ function _doSearch(q){
   res.innerHTML=hits.map(i=>`<a href="${i.url}" class="srch-item" onclick="closeSearch()"><div class="srch-tag">${i.tag}</div><div class="srch-title">${_hi(i.title,q)}</div><div class="srch-snip">${_hi(i.snippet,q)}</div></a>`).join('');
 }
 
-/* ── NAV HTML ── */
+/* ── NAV + FOOTER HTML ── */
 function renderNav(p){
   return`
-<div class="scroll-bar"></div>
+<div class="scroll-progress"><div class="scroll-progress-bar"></div></div>
 <nav id="navbar">
   <a href="index.html" class="nav-logo"><div class="logo-area"></div></a>
   <ul class="nav-links">
@@ -246,7 +258,6 @@ function renderNav(p){
 <div class="cur-dot"></div>
 <div class="cur-ring"></div>`;
 }
-
 function renderFooter(){
   return`<footer>
   <div class="ft-logo">NISADYA</div>
@@ -259,15 +270,13 @@ function renderFooter(){
   <div class="ft-copy">© 2025 Nisadya · Department of Management Studies · NIT Tiruchirappalli</div>
 </footer>`;
 }
-
-function boot(page, pageInit){
+function boot(page,pageInit){
   document.getElementById('nav-root').innerHTML=renderNav(page);
   document.getElementById('foot-root').innerHTML=renderFooter();
-  initTheme(); initLogo(); initNav();
-  initCursor(); initTilt(); initMagnetic(); initCounters(); initSearch();
-  if(pageInit) pageInit();
-  // initReveal LAST — after pageInit may have injected more .rv elements
-  // Use rAF to ensure DOM is painted first
+  initTheme();initLogo();initNav();
+  initCursor();initTilt();initMagnetic();initCounters();initSearch();
+  if(pageInit)pageInit();
+  // initReveal AFTER paint — double rAF ensures DOM is rendered
   requestAnimationFrame(function(){
     requestAnimationFrame(function(){
       initReveal();
