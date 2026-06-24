@@ -72,7 +72,7 @@ async function loadEvents(){
 boot('events',loadEvents);
 </script>
   <script>
-  /* ── REVEAL FAILSAFE: show all hidden elements after 1s ── */
+  /* REVEAL FAILSAFE: guarantees content visible even if observer misses */
   window.addEventListener('load', function(){
     setTimeout(function(){
       document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){
