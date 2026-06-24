@@ -138,7 +138,7 @@
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 @media(max-width:900px){.story-split{grid-template-columns:1fr;}.scene-grid{grid-template-columns:1fr 1fr;}}
-@media(max-width:768px){.stats-row{grid-template-columns:1fr 1fr;}.preview-grid{grid-template-columns:1fr;}.scene-grid{grid-template-columns:1fr;}.hero-dots{display:none;}.hscroll-track{touch-action:pan-x;padding:20px 20px 40px;}}
+@media(max-width:768px){.stats-row{grid-template-columns:1fr 1fr;}.preview-grid{grid-template-columns:1fr;}.scene-grid{grid-template-columns:1fr;}.hero-dots{display:none;}.hscroll-track{padding:20px 20px 40px;}}
 </style>
 </head>
 <body>
@@ -463,7 +463,7 @@ boot('index',()=>{
 });
 </script>
   <script>
-  /* ── REVEAL FAILSAFE: show all hidden elements after 1s ── */
+  /* REVEAL FAILSAFE: guarantees content visible even if observer misses */
   window.addEventListener('load', function(){
     setTimeout(function(){
       document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){
