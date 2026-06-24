@@ -1,14 +1,11 @@
 /* ══ CONFIG — only file you edit each year ══ */
 const CONFIG = {
-  logos: ["1aIR3Y9QXJZ8E8eG2rquYECnUoL07Mxsz"],  // Drive File IDs: ["ID1","ID2","ID3"]
+  logos: [],  // Drive File IDs: ["ID1","ID2","ID3"]
   hero: { images: [], videos: [] },
-  sheets: { eventsSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4", scheduleSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4" },
-
+sheets: { eventsSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4", scheduleSheetId:"1TuzSodeSOcgWiHBhuqymosAHQMkEuYPXnrlyYz_gVR4" },
   sheetTabs: { events:"Events", schedule:"Schedule" },
-  instagramReels: [
-"https://www.instagram.com/nisadya.nitt/p/DXKZIzQjGpC/","https://www.instagram.com/nisadya.nitt/reel/DVSzDPVCVu6/","https://www.instagram.com/nisadya.nitt/reel/DVOW9jNCcfw/"."https://www.instagram.com/nisadya.nitt/reel/DU8qMLWAThw/","https://www.instagram.com/nisadya.nitt/reel/DUd6d8kE7nd/"
-    // "https://www.instagram.com/reel/REEL_ID/",
-  ]
+  instagramReels: ["https://www.instagram.com/nisadya.nitt/p/DXKZIzQjGpC/","https://www.instagram.com/nisadya.nitt/reel/DVSzDPVCVu6/","https://www.instagram.com/nisadya.nitt/reel/DVOW9jNCcfw/"."https://www.instagram.com/nisadya.nitt/reel/DU8qMLWAThw/","https://www.instagram.com/nisadya.nitt/reel/DUd6d8kE7nd/"
+   ]
 };
 
 /* ── HELPERS ── */
@@ -112,29 +109,26 @@ function initCursor(){
 
 /* ── REVEAL ── */
 function initReveal(){
-  const obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}
-    });
-  },{threshold:0,rootMargin:'0px 0px -30px 0px'});
-  document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){obs.observe(el);});
-  // Safety net: force-show all hidden elements after 1.5s
-  setTimeout(function(){
-    document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){
-      el.classList.add('on');
-    });
-  },1500);
-}
-function reObserve(){
   var obs=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}
     });
   },{threshold:0,rootMargin:'0px 0px -20px 0px'});
-  document.querySelectorAll('.rv:not(.on),.rvl:not(.on),.rvr:not(.on)').forEach(function(el){obs.observe(el);});
+  document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){obs.observe(el);});
   setTimeout(function(){
     document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){el.classList.add('on');});
-  },1500);
+  },1200);
+}
+function reObserve(){
+  var obs2=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('on');obs2.unobserve(e.target);}
+    });
+  },{threshold:0,rootMargin:'0px 0px -10px 0px'});
+  document.querySelectorAll('.rv:not(.on),.rvl:not(.on),.rvr:not(.on)').forEach(function(el){obs2.observe(el);});
+  setTimeout(function(){
+    document.querySelectorAll('.rv,.rvl,.rvr').forEach(function(el){el.classList.add('on');});
+  },1200);
 }
 
 /* ── 3D TILT ── */
@@ -275,10 +269,9 @@ function renderFooter(){
 function boot(page,pageInit){
   document.getElementById('nav-root').innerHTML=renderNav(page);
   document.getElementById('foot-root').innerHTML=renderFooter();
-  initTheme();initLogo();initNav();
-  initCursor();initTilt();initMagnetic();initCounters();initSearch();
+  initTheme();initLogo();initNav();initCursor();
+  initTilt();initMagnetic();initSearch();
   if(pageInit)pageInit();
-  // initReveal AFTER paint — double rAF ensures DOM is rendered
   requestAnimationFrame(function(){
     requestAnimationFrame(function(){
       initReveal();
